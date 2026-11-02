@@ -2,112 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="ALFAIZ Studio Gate - Administrative Security Matrix">
-  <meta name="theme-color" content="#0A1931">
-  <title>ALFAIZ STUDIO GATE | Administrative Security Matrix</title>
-  
-  <!-- Google Fonts: Plus Jakarta Sans & Space Grotesk -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
-  
-  <!-- Admin CSS -->
-  <link rel="stylesheet" href="../css/admin.css">
-  <link rel="icon" id="site-favicon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><polygon points=%2250,5 95,28 95,72 50,95 5,72 5,28%22 fill=%22%230F6CBD%22/><text x=%2250%22 y=%2264%22 font-family=%22sans-serif%22 font-weight=%22800%22 font-size=%2246%22 fill=%22white%22 text-anchor=%22middle%22>A</text></svg>">
+  <meta http-equiv="refresh" content="0; url=index.html">
+  <title>Redirecting to Admin Console...</title>
+  <script>
+    window.location.replace('index.html');
+  </script>
 </head>
-<body class="admin-login-body">
-
-  <!-- Floating Hexagons Background Elements with border 1px solid #0F6CBD low opacity -->
-  <div class="hex-backdrop" aria-hidden="true">
-    <div class="floating-hex hex-1"></div>
-    <div class="floating-hex hex-2"></div>
-    <div class="floating-hex hex-3"></div>
-    <div class="floating-hex hex-4"></div>
-    <div class="floating-hex hex-5"></div>
-    <div class="floating-hex hex-6"></div>
-  </div>
-
-  <!-- Center Card (Width 420px, rgba(15,23,42,0.8), blur 12px, border 1px solid rgba(15,108,189,0.3), rounded 20px) -->
-  <main class="login-card" role="main">
-    
-    <!-- ALFAIZ Hexagon Logo (div with clip-path polygon hexagon) -->
-    <div class="hex-logo-wrapper" aria-hidden="true">
-      <div class="hex-logo-shape">
-        <span class="hex-logo-letter">A</span>
-      </div>
-    </div>
-
-    <!-- Title & Subtitle -->
-    <h1 class="login-title">ALFAIZ STUDIO GATE</h1>
-    <div class="login-subtitle">Administrative Security Matrix</div>
-
-    <!-- Auth Error Alert Banner -->
-    <div class="auth-error-banner" id="auth-error-banner" role="alert" aria-live="assertive"></div>
-
-    <!-- Login Form -->
-    <form class="login-form" id="admin-login-form" novalidate>
-      <div class="admin-field-group">
-        <label for="admin-email" class="admin-field-label">Administrator Identifier</label>
-        <div class="admin-input-wrap">
-          <input 
-            type="email" 
-            id="admin-email" 
-            name="email" 
-            class="admin-input" 
-            placeholder="admin@gmail.com" 
-            required 
-            autocomplete="email">
-        </div>
-      </div>
-
-      <div class="admin-field-group">
-        <label for="admin-password" class="admin-field-label">Access Passkey</label>
-        <div class="admin-input-wrap">
-          <input 
-            type="password" 
-            id="admin-password" 
-            name="password" 
-            class="admin-input" 
-            placeholder="ALFAIZ123" 
-            required 
-            autocomplete="current-password">
-        </div>
-      </div>
-
-      <!-- Authorize & Unlock Console Button (Blue Gradient #0F6CBD to #0A3D6B) -->
-      <button type="submit" class="btn-auth-unlock" id="submit-auth-btn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-        </svg>
-        <span>Authorize &amp; Unlock Console</span>
-      </button>
-    </form>
-
-    <!-- Links: 1-Click Demo Fill + Return to Portfolio -->
-    <div class="login-card-links">
-      <button type="button" class="demo-fill-btn" id="demo-fill-btn" title="Autofill standard admin demo credentials">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3"></circle>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-        </svg>
-        <span>1-Click Demo Fill</span>
-      </button>
-
-      <a href="../index.html" class="return-portfolio-link">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="19" y1="12" x2="5" y2="12"></line>
-          <polyline points="12 19 5 12 12 5"></polyline>
-        </svg>
-        <span>Return to Portfolio</span>
-      </a>
-    </div>
-
-  </main>
-
-  <!-- Auth Logic -->
-  <script src="../js/admin-auth.js"></script>
+<body style="font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; background: #F8FAFC; color: #0F172A;">
+  <p>Redirecting to <a href="index.html" style="color: #0F6CBD; font-weight: 700;">ALFAIZ Admin Console</a>...</p>
 </body>
 </html>
-

@@ -1,739 +1,1599 @@
 /**
- * ALFAIZ | Administrative Console System (js/admin.js)
- * Manages Branding, Hero, Projects CRUD, Fiverr Gig Canvas Generator (1280x769),
- * Loader Settings, and SEO configuration in localStorage.
+ * ALFAIZ STUDIO | Administrative Console JavaScript Matrix
+ * High-performance, zero-framework, clean white+blue corporate dashboard.
+ * Zero login requirement - instant access to real-time localStorage sync.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
   // ==========================================================================
-  // 1. Authentication Protection Check
+  // 1. Tab Switching & Mobile Sidebar Navigation
   // ==========================================================================
-  if (localStorage.getItem('adminLogged') !== 'true') {
-    window.location.href = 'login.html';
-    return;
-  }
+  const sidebarLinks = document.querySelectorAll('.sidebar-link');
+  const tabPanels = document.querySelectorAll('.admin-tab-panel');
+  const topbarTitle = document.getElementById('topbar-title');
+  const mobileToggle = document.getElementById('mobile-sidebar-toggle');
+  const sidebar = document.getElementById('admin-sidebar');
 
-  // Logout Handler
-  const logoutBtn = document.getElementById('sidebar-logout-btn');
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', () => {
-      if (confirm('Terminate Administrative Session?')) {
-        localStorage.removeItem('adminLogged');
-        window.location.href = 'login.html';
+  const tabTitles = {
+    'dashboard': 'Dashboard Overview',
+    'branding': 'Branding & Favicon Configuration',
+    'hero': 'Hero Section Management',
+    'projects': 'Engineered Systems Portfolio (CRUD)',
+    'experience': 'Career Experience & Milestones (CRUD)',
+    'skills': 'Skills & Technical Matrix',
+    'services': 'Consulting Services & Packages',
+    'about': 'Architect Profile & Executive Bio',
+    'contact': 'Contact Channels & Response SLAs',
+    'links': 'External Links & Fiverr Integration',
+    'seo': 'Search Engine Optimization & OpenGraph',
+    'gig': 'Fiverr Gig Graphic Generator (1280x769)'
+  };
+
+  window.switchAdminTab = function(tabName) {
+    sidebarLinks.forEach(link => {
+      if (link.dataset.tab === tabName) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
       }
     });
-  }
 
-  // Toast System
-  const toast = document.getElementById('admin-toast');
-  const toastMsg = document.getElementById('toast-message');
-  let toastTimer = null;
+    tabPanels.forEach(panel => {
+      if (panel.id === `tab-${tabName}`) {
+        panel.classList.add('active');
+      } else {
+        panel.classList.remove('active');
+      }
+    });
 
-  function showToast(message, isSuccess = true) {
-    if (!toast) return;
-    if (toastTimer) clearTimeout(toastTimer);
+    if (topbarTitle && tabTitles[tabName]) {
+      topbarTitle.textContent = tabTitles[tabName];
+    }
 
-    toastMsg.textContent = message;
-    toast.style.borderColor = isSuccess ? '#10B981' : '#EF4444';
-    toast.classList.add('active');
+    if (sidebar) {
+      sidebar.classList.remove('mobile-open');
+    }
 
-    toastTimer = setTimeout(() => {
-      toast.classList.remove('active');
-    }, 3200);
-  }
-
-  // ==========================================================================
-  // 2. Sidebar Tab Navigation
-  // ==========================================================================
-  const sidebarLinks = document.querySelectorAll('.sidebar-link[data-tab]');
-  const contentPanes = document.querySelectorAll('.admin-tab-pane');
-  const topbarTitle = document.getElementById('topbar-tab-title');
+    // Trigger canvas redraw if gig tab opened
+    if (tabName === 'gig') {
+      setTimeout(renderGigCanvas, 100);
+    } else if (tabName === 'dashboard') {
+      setTimeout(renderVisitorChart, 100);
+    }
+  };
 
   sidebarLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
-      const tabTarget = link.getAttribute('data-tab');
-
-      sidebarLinks.forEach(l => l.classList.remove('active'));
-      link.classList.add('active');
-
-      contentPanes.forEach(pane => {
-        pane.style.display = (pane.id === `tab-${tabTarget}`) ? 'block' : 'none';
-      });
-
-      if (topbarTitle) {
-        topbarTitle.textContent = link.textContent.trim();
-      }
-
-      // If switching to Gig generator, redraw canvas
-      if (tabTarget === 'gig') {
-        renderGigCanvas();
-      }
+      const tab = link.dataset.tab;
+      if (tab) switchAdminTab(tab);
     });
   });
 
-  // Mobile sidebar toggle
-  const sidebarToggle = document.getElementById('admin-sidebar-toggle');
-  const adminSidebar = document.querySelector('.admin-sidebar');
-  if (sidebarToggle && adminSidebar) {
-    sidebarToggle.addEventListener('click', () => {
-      adminSidebar.classList.toggle('open');
+  if (mobileToggle && sidebar) {
+    mobileToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('mobile-open');
     });
   }
 
   // ==========================================================================
-  // 3. Branding Section Management ('alfaiz_branding')
+  // 2. Toast Feedback Notification
   // ==========================================================================
-  const brandingForm = document.getElementById('branding-form');
-  const brandLogoInput = document.getElementById('brand-logo-text');
-  const brandFaviconInput = document.getElementById('brand-favicon-url');
-  const brandPrimaryColor = document.getElementById('brand-color-primary');
-  const brandDarkColor = document.getElementById('brand-color-dark');
-  const brandAccentColor = document.getElementById('brand-color-accent');
+  const toast = document.getElementById('admin-toast');
+  const toastMessage = document.getElementById('toast-message');
+  let toastTimer = null;
 
-  function loadBrandingSettings() {
-    const saved = localStorage.getItem('alfaiz_branding');
-    const data = saved ? JSON.parse(saved) : {
-      logoText: 'ALFAIZ | Web Architect',
-      faviconUrl: 'favicon.ico',
-      primaryColor: '#0F6CBD',
-      darkColor: '#0A3D6B',
-      accentColor: '#38BDF8'
-    };
+  function showToast(msg, type = 'success') {
+    if (!toast) return;
+    if (toastTimer) clearTimeout(toastTimer);
 
-    if (brandLogoInput) brandLogoInput.value = data.logoText || 'ALFAIZ | Web Architect';
-    if (brandFaviconInput) brandFaviconInput.value = data.faviconUrl || 'favicon.ico';
-    if (brandPrimaryColor) brandPrimaryColor.value = data.primaryColor || '#0F6CBD';
-    if (brandDarkColor) brandDarkColor.value = data.darkColor || '#0A3D6B';
-    if (brandAccentColor) brandAccentColor.value = data.accentColor || '#38BDF8';
+    toastMessage.textContent = msg;
+    toast.className = `admin-toast ${type} show`;
+
+    toastTimer = setTimeout(() => {
+      toast.classList.remove('show');
+    }, 3200);
   }
 
-  if (brandingForm) {
-    brandingForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const data = {
-        logoText: brandLogoInput.value.trim(),
-        faviconUrl: brandFaviconInput.value.trim(),
-        primaryColor: brandPrimaryColor.value,
-        darkColor: brandDarkColor.value,
-        accentColor: brandAccentColor.value,
-        updatedAt: new Date().toISOString()
+  // ==========================================================================
+  // 3. Activity Logger
+  // ==========================================================================
+  function logActivity(description) {
+    try {
+      const existing = JSON.parse(localStorage.getItem('alfaiz_activity_log') || '[]');
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' • ' + now.toLocaleDateString();
+
+      existing.unshift({ desc: description, time: timeStr });
+      if (existing.length > 25) existing.pop();
+
+      localStorage.setItem('alfaiz_activity_log', JSON.stringify(existing));
+      localStorage.setItem('alfaiz_last_updated', timeStr);
+
+      renderActivityFeed();
+      updateDashboardCards();
+    } catch (e) {
+      console.warn('Could not log activity:', e);
+    }
+  }
+
+  function renderActivityFeed() {
+    const listEl = document.getElementById('activity-feed-list');
+    if (!listEl) return;
+
+    let items = [];
+    try {
+      items = JSON.parse(localStorage.getItem('alfaiz_activity_log') || '[]');
+    } catch (e) { items = []; }
+
+    if (items.length === 0) {
+      items = [
+        { desc: 'Admin console initialized in clean white + blue mode', time: 'Just now' },
+        { desc: 'Projects CRUD synchronized with localStorage (6 projects)', time: 'Today' },
+        { desc: 'Core Web Vitals analytics tracking activated', time: 'Today' }
+      ];
+    }
+
+    listEl.innerHTML = items.map(item => `
+      <div class="activity-feed-item">
+        <span class="activity-dot"></span>
+        <div class="activity-text-wrap">
+          <span class="activity-desc">${item.desc}</span>
+          <span class="activity-meta">${item.time}</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // ==========================================================================
+  // 4. Drag & Drop File Upload Helper (Converts to Base64 Data URL)
+  // ==========================================================================
+  function setupDragDrop(zoneId, inputId, previewWrapId, previewImgId, previewNameId, removeBtnId, onDataReady) {
+    const zone = document.getElementById(zoneId);
+    const input = document.getElementById(inputId);
+    const wrap = document.getElementById(previewWrapId);
+    const img = document.getElementById(previewImgId);
+    const nameEl = document.getElementById(previewNameId);
+    const removeBtn = document.getElementById(removeBtnId);
+
+    if (!zone || !input) return;
+
+    function handleFile(file) {
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const dataUrl = e.target.result;
+        if (img) img.src = dataUrl;
+        if (nameEl) nameEl.textContent = file.name;
+        if (wrap) wrap.classList.add('active');
+
+        if (typeof onDataReady === 'function') {
+          onDataReady(dataUrl, file.name);
+        }
       };
-      localStorage.setItem('alfaiz_branding', JSON.stringify(data));
-      showToast('Branding settings saved successfully!');
+      reader.readAsDataURL(file);
+    }
+
+    // Drag events
+    ['dragenter', 'dragover'].forEach(eventName => {
+      zone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        zone.classList.add('dragover');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      zone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        zone.classList.remove('dragover');
+      });
+    });
+
+    zone.addEventListener('drop', (e) => {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      if (files && files[0]) {
+        handleFile(files[0]);
+      }
+    });
+
+    input.addEventListener('change', () => {
+      if (input.files && input.files[0]) {
+        handleFile(input.files[0]);
+      }
+    });
+
+    if (removeBtn) {
+      removeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        input.value = '';
+        if (img) img.src = '';
+        if (wrap) wrap.classList.remove('active');
+        if (typeof onDataReady === 'function') {
+          onDataReady('', '');
+        }
+      });
+    }
+  }
+
+  // ==========================================================================
+  // 5. Dashboard Telemetry & 7-Day Canvas Chart
+  // ==========================================================================
+  function updateDashboardCards() {
+    const vEl = document.getElementById('stat-total-visitors');
+    const pEl = document.getElementById('stat-page-views');
+    const cEl = document.getElementById('stat-project-count');
+    const uEl = document.getElementById('stat-last-updated');
+    const navCounter = document.getElementById('nav-project-counter');
+
+    const visitors = localStorage.getItem('alfaiz_visitors') || '1,482';
+    const pageviews = localStorage.getItem('alfaiz_pageviews') || '4,290';
+    const lastUpdated = localStorage.getItem('alfaiz_last_updated') || 'Just now';
+
+    let projCount = 6;
+    try {
+      const projs = JSON.parse(localStorage.getItem('alfaiz_portfolio_v2') || '[]');
+      if (Array.isArray(projs)) projCount = projs.length;
+    } catch (e) {}
+
+    if (vEl) vEl.textContent = visitors;
+    if (pEl) pEl.textContent = pageviews;
+    if (cEl) cEl.textContent = projCount;
+    if (navCounter) navCounter.textContent = projCount;
+    if (uEl) uEl.textContent = lastUpdated;
+  }
+
+  function renderVisitorChart() {
+    const canvas = document.getElementById('visitor-chart');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width;
+    const height = canvas.height;
+
+    // Daily stats or realistic default sequence
+    let dailyData = [142, 178, 220, 265, 240, 290, 345];
+    try {
+      const savedStats = JSON.parse(localStorage.getItem('alfaiz_daily_stats') || 'null');
+      if (Array.isArray(savedStats) && savedStats.length >= 7) {
+        dailyData = savedStats.slice(-7);
+      }
+    } catch (e) {}
+
+    // Day labels for past 7 days
+    const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+    // Clear canvas
+    ctx.clearRect(0, 0, width, height);
+
+    const padLeft = 45;
+    const padRight = 20;
+    const padTop = 25;
+    const padBottom = 35;
+    const chartW = width - padLeft - padRight;
+    const chartH = height - padTop - padBottom;
+
+    const maxVal = Math.max(...dailyData, 400);
+
+    // 1. Draw horizontal grid lines & labels
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#E2E8F0';
+    ctx.font = '11px Plus Jakarta Sans, sans-serif';
+    ctx.fillStyle = '#94A3B8';
+    ctx.textAlign = 'right';
+
+    const gridLines = 4;
+    for (let i = 0; i <= gridLines; i++) {
+      const yVal = Math.round((maxVal / gridLines) * i);
+      const y = padTop + chartH - (i * (chartH / gridLines));
+
+      ctx.beginPath();
+      ctx.moveTo(padLeft, y);
+      ctx.lineTo(width - padRight, y);
+      ctx.stroke();
+
+      ctx.fillText(yVal.toString(), padLeft - 8, y + 4);
+    }
+
+    // 2. Compute point coordinates
+    const points = dailyData.map((val, idx) => {
+      const x = padLeft + (idx * (chartW / (dailyData.length - 1)));
+      const y = padTop + chartH - ((val / maxVal) * chartH);
+      return { x, y, val };
+    });
+
+    // 3. Draw gradient filled area under the line
+    const grad = ctx.createLinearGradient(0, padTop, 0, padTop + chartH);
+    grad.addColorStop(0, 'rgba(15, 108, 189, 0.28)');
+    grad.addColorStop(1, 'rgba(15, 108, 189, 0.01)');
+
+    ctx.beginPath();
+    ctx.moveTo(points[0].x, padTop + chartH);
+    points.forEach(pt => ctx.lineTo(pt.x, pt.y));
+    ctx.lineTo(points[points.length - 1].x, padTop + chartH);
+    ctx.closePath();
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // 4. Draw smooth stroke curve
+    ctx.beginPath();
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = '#0F6CBD';
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+
+    points.forEach((pt, idx) => {
+      if (idx === 0) ctx.moveTo(pt.x, pt.y);
+      else {
+        const prev = points[idx - 1];
+        const cx = (prev.x + pt.x) / 2;
+        ctx.bezierCurveTo(cx, prev.y, cx, pt.y, pt.x, pt.y);
+      }
+    });
+    ctx.stroke();
+
+    // 5. Draw point dots and X-axis day labels
+    ctx.textAlign = 'center';
+    points.forEach((pt, idx) => {
+      // Outer glow circle
+      ctx.beginPath();
+      ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fill();
+      ctx.lineWidth = 2.5;
+      ctx.strokeStyle = '#0F6CBD';
+      ctx.stroke();
+
+      // Day label
+      ctx.fillStyle = '#64748B';
+      ctx.fillText(dayNames[idx % 7], pt.x, height - 12);
+    });
+  }
+
+  const btnRefreshChart = document.getElementById('btn-refresh-chart');
+  if (btnRefreshChart) {
+    btnRefreshChart.addEventListener('click', () => {
+      renderVisitorChart();
+      showToast('Chart analytics re-indexed', 'info');
     });
   }
 
   // ==========================================================================
-  // 4. Hero Section Management ('alfaiz_hero')
+  // 6. Branding & Favicon Management
+  // ==========================================================================
+  let uploadedFavicon = '';
+  let uploadedLogo = '';
+
+  setupDragDrop(
+    'favicon-drop-zone',
+    'favicon-file-input',
+    'favicon-preview-wrap',
+    'favicon-preview-img',
+    'favicon-preview-name',
+    'btn-remove-favicon',
+    (dataUrl, fileName) => {
+      uploadedFavicon = dataUrl;
+      const fav = document.getElementById('site-favicon');
+      if (fav && dataUrl) fav.href = dataUrl;
+    }
+  );
+
+  setupDragDrop(
+    'logo-drop-zone',
+    'logo-file-input',
+    'logo-preview-wrap',
+    'logo-preview-img',
+    'logo-preview-name',
+    'btn-remove-logo',
+    (dataUrl) => {
+      uploadedLogo = dataUrl;
+    }
+  );
+
+  const brandForm = document.getElementById('branding-form');
+  const brandLogoInput = document.getElementById('brand-logo-text');
+  const brandSubInput = document.getElementById('brand-sub-title');
+  const brandPrimaryInput = document.getElementById('brand-primary-color');
+  const brandDarkInput = document.getElementById('brand-dark-color');
+
+  // Live preview elements
+  const prevBrandName = document.getElementById('prev-brand-name');
+  const prevBrandRole = document.getElementById('prev-brand-role');
+
+  if (brandLogoInput) {
+    brandLogoInput.addEventListener('input', () => {
+      if (prevBrandName) prevBrandName.textContent = brandLogoInput.value || 'ALFAIZ';
+    });
+  }
+
+  if (brandSubInput) {
+    brandSubInput.addEventListener('input', () => {
+      if (prevBrandRole) prevBrandRole.textContent = brandSubInput.value || 'Web Architect';
+    });
+  }
+
+  function loadBrandingData() {
+    try {
+      const data = JSON.parse(localStorage.getItem('alfaiz_branding') || '{}');
+      if (data.logoText && brandLogoInput) brandLogoInput.value = data.logoText;
+      if (data.subTitle && brandSubInput) brandSubInput.value = data.subTitle;
+      if (data.primaryColor && brandPrimaryInput) brandPrimaryInput.value = data.primaryColor;
+      if (data.darkColor && brandDarkInput) brandDarkInput.value = data.darkColor;
+
+      if (data.favicon) {
+        uploadedFavicon = data.favicon;
+        const img = document.getElementById('favicon-preview-img');
+        const wrap = document.getElementById('favicon-preview-wrap');
+        if (img) img.src = data.favicon;
+        if (wrap) wrap.classList.add('active');
+        const fav = document.getElementById('site-favicon');
+        if (fav) fav.href = data.favicon;
+      }
+
+      if (data.logoImage) {
+        uploadedLogo = data.logoImage;
+        const img = document.getElementById('logo-preview-img');
+        const wrap = document.getElementById('logo-preview-wrap');
+        if (img) img.src = data.logoImage;
+        if (wrap) wrap.classList.add('active');
+      }
+
+      // Update preview
+      if (prevBrandName) prevBrandName.textContent = data.logoText || 'ALFAIZ';
+      if (prevBrandRole) prevBrandRole.textContent = data.subTitle || 'Web Architect';
+    } catch (e) {}
+  }
+
+  if (brandForm) {
+    brandForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const config = {
+        logoText: brandLogoInput ? brandLogoInput.value.trim() : 'ALFAIZ',
+        subTitle: brandSubInput ? brandSubInput.value.trim() : 'Web Architect',
+        primaryColor: brandPrimaryInput ? brandPrimaryInput.value : '#0F6CBD',
+        darkColor: brandDarkInput ? brandDarkInput.value : '#0A3D6B',
+        favicon: uploadedFavicon || '',
+        faviconUrl: uploadedFavicon || '',
+        logoImage: uploadedLogo || ''
+      };
+
+      localStorage.setItem('alfaiz_branding', JSON.stringify(config));
+      logActivity('Branding and favicon updated');
+      showToast('Branding configuration saved successfully!');
+    });
+  }
+
+  // ==========================================================================
+  // 7. Hero Section Management & Live Preview
   // ==========================================================================
   const heroForm = document.getElementById('hero-form');
-  const heroBadgeInput = document.getElementById('hero-badge-input');
-  const heroHeading1Input = document.getElementById('hero-h1-part1');
-  const heroHeading2Input = document.getElementById('hero-h1-gradient');
-  const heroHeading3Input = document.getElementById('hero-h1-part3');
-  const heroDescInput = document.getElementById('hero-desc-input');
-  const heroBtn1Input = document.getElementById('hero-btn1-input');
-  const heroBtn2Input = document.getElementById('hero-btn2-input');
+  const heroBadge = document.getElementById('hero-badge-input');
+  const heroLine1 = document.getElementById('hero-line1');
+  const heroLine2 = document.getElementById('hero-line2');
+  const heroLine3 = document.getElementById('hero-line3');
+  const heroDesc = document.getElementById('hero-desc-input');
+  const heroBtn1Text = document.getElementById('hero-btn1-text');
+  const heroBtn1Url = document.getElementById('hero-btn1-url');
+  const heroBtn2Text = document.getElementById('hero-btn2-text');
+  const heroBtn2Url = document.getElementById('hero-btn2-url');
 
-  function loadHeroSettings() {
-    const saved = localStorage.getItem('alfaiz_hero');
-    const data = saved ? JSON.parse(saved) : {
-      badge: 'Available for freelance projects',
-      heading1: 'Architecting',
-      headingGradient: 'Future-Ready',
-      heading3: 'Web Systems With Pure Speed',
-      description: 'High-performance digital engineering crafted without framework overhead. Delivering sub-second latency, rock-solid architectural stability, and frictionless enterprise scalability directly aligned with your business milestones.',
-      btn1Text: 'Explore Selected Works',
-      btn2Text: 'Order Fiverr Gig'
-    };
+  const prevHeroBadge = document.getElementById('prev-hero-badge');
+  const prevHeroLine1 = document.getElementById('prev-hero-line1');
+  const prevHeroLine2 = document.getElementById('prev-hero-line2');
+  const prevHeroLine3 = document.getElementById('prev-hero-line3');
+  const prevHeroDesc = document.getElementById('prev-hero-desc');
+  const prevHeroBtn1 = document.getElementById('prev-hero-btn1');
+  const prevHeroBtn2 = document.getElementById('prev-hero-btn2');
 
-    if (heroBadgeInput) heroBadgeInput.value = data.badge;
-    if (heroHeading1Input) heroHeading1Input.value = data.heading1;
-    if (heroHeading2Input) heroHeading2Input.value = data.headingGradient;
-    if (heroHeading3Input) heroHeading3Input.value = data.heading3;
-    if (heroDescInput) heroDescInput.value = data.description;
-    if (heroBtn1Input) heroBtn1Input.value = data.btn1Text;
-    if (heroBtn2Input) heroBtn2Input.value = data.btn2Text;
+  function bindHeroLivePreview() {
+    if (heroBadge && prevHeroBadge) {
+      heroBadge.addEventListener('input', () => prevHeroBadge.textContent = heroBadge.value || 'Available for freelance projects');
+    }
+    if (heroLine1 && prevHeroLine1) {
+      heroLine1.addEventListener('input', () => prevHeroLine1.textContent = heroLine1.value || 'Architecting');
+    }
+    if (heroLine2 && prevHeroLine2) {
+      heroLine2.addEventListener('input', () => prevHeroLine2.textContent = heroLine2.value || 'Future-Ready');
+    }
+    if (heroLine3 && prevHeroLine3) {
+      heroLine3.addEventListener('input', () => prevHeroLine3.textContent = heroLine3.value || 'Web Systems With Pure Speed');
+    }
+    if (heroDesc && prevHeroDesc) {
+      heroDesc.addEventListener('input', () => prevHeroDesc.textContent = heroDesc.value || 'High-performance digital engineering...');
+    }
+    if (heroBtn1Text && prevHeroBtn1) {
+      heroBtn1Text.addEventListener('input', () => prevHeroBtn1.textContent = heroBtn1Text.value || 'Explore Selected Works');
+    }
+    if (heroBtn2Text && prevHeroBtn2) {
+      heroBtn2Text.addEventListener('input', () => prevHeroBtn2.textContent = heroBtn2Text.value || 'Order Fiverr Gig');
+    }
+  }
+
+  function loadHeroData() {
+    try {
+      const data = JSON.parse(localStorage.getItem('alfaiz_hero') || '{}');
+      if (heroBadge) heroBadge.value = data.badge || 'Available for freelance projects';
+      if (heroLine1) heroLine1.value = data.line1 || 'Architecting';
+      if (heroLine2) heroLine2.value = data.line2 || 'Future-Ready';
+      if (heroLine3) heroLine3.value = data.line3 || 'Web Systems With Pure Speed';
+      if (heroDesc) heroDesc.value = data.desc || 'High-performance digital engineering crafted without framework overhead. Delivering sub-second latency, rock-solid stability, and frictionless scalability.';
+      if (heroBtn1Text) heroBtn1Text.value = data.btn1Text || 'Explore Selected Works';
+      if (heroBtn1Url) heroBtn1Url.value = data.btn1Url || 'projects.html';
+      if (heroBtn2Text) heroBtn2Text.value = data.btn2Text || 'Order Fiverr Gig';
+      if (heroBtn2Url) heroBtn2Url.value = data.btn2Url || 'https://www.fiverr.com';
+
+      // Update preview
+      if (prevHeroBadge) prevHeroBadge.textContent = heroBadge.value;
+      if (prevHeroLine1) prevHeroLine1.textContent = heroLine1.value;
+      if (prevHeroLine2) prevHeroLine2.textContent = heroLine2.value;
+      if (prevHeroLine3) prevHeroLine3.textContent = heroLine3.value;
+      if (prevHeroDesc) prevHeroDesc.textContent = heroDesc.value;
+      if (prevHeroBtn1) prevHeroBtn1.textContent = heroBtn1Text.value;
+      if (prevHeroBtn2) prevHeroBtn2.textContent = heroBtn2Text.value;
+    } catch (e) {}
   }
 
   if (heroForm) {
     heroForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const data = {
-        badge: heroBadgeInput.value.trim(),
-        heading1: heroHeading1Input.value.trim(),
-        headingGradient: heroHeading2Input.value.trim(),
-        heading3: heroHeading3Input.value.trim(),
-        description: heroDescInput.value.trim(),
-        btn1Text: heroBtn1Input.value.trim(),
-        btn2Text: heroBtn2Input.value.trim(),
-        updatedAt: new Date().toISOString()
+      const config = {
+        badge: heroBadge.value.trim(),
+        line1: heroLine1.value.trim(),
+        line2: heroLine2.value.trim(),
+        line3: heroLine3.value.trim(),
+        desc: heroDesc.value.trim(),
+        btn1Text: heroBtn1Text.value.trim(),
+        btn1Url: heroBtn1Url.value.trim(),
+        btn2Text: heroBtn2Text.value.trim(),
+        btn2Url: heroBtn2Url.value.trim()
       };
-      localStorage.setItem('alfaiz_hero', JSON.stringify(data));
-      showToast('Hero matrix settings saved successfully!');
+
+      localStorage.setItem('alfaiz_hero', JSON.stringify(config));
+      logActivity('Hero section content modified');
+      showToast('Hero section saved successfully!');
     });
   }
 
   // ==========================================================================
-  // 5. Projects CRUD Management ('alfaiz_portfolio_v2')
+  // 8. Projects CRUD Matrix (With Drag & Drop Image)
   // ==========================================================================
-  const projectForm = document.getElementById('project-form');
-  const projectIdField = document.getElementById('project-id-field');
-  const projectTitleInput = document.getElementById('project-title-input');
-  const projectCatInput = document.getElementById('project-cat-input');
-  const projectBadgeInput = document.getElementById('project-badge-input');
-  const projectImgInput = document.getElementById('project-img-input');
-  const projectVideoInput = document.getElementById('project-video-input');
-  const projectDescInput = document.getElementById('project-desc-input');
-  const projectTagsInput = document.getElementById('project-tags-input');
-  const projectSubmitBtn = document.getElementById('project-submit-btn');
-  const projectCancelBtn = document.getElementById('project-cancel-btn');
-  const projectsTableBody = document.getElementById('projects-table-body');
-  const resetProjectsBtn = document.getElementById('reset-projects-btn');
+  const DEFAULT_PROJECTS = [
+    {
+      id: "1",
+      title: "Apex Pulse • Ultra-Low Latency Telemetry Engine",
+      category: "Fintech / Telemetry",
+      client: "Global Financial Infrastructure • 2024",
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
+      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      description: "High-frequency algorithmic monitoring platform rendering 60,000 live updates per second with hardware-accelerated canvas visualizers and zero DOM churn.",
+      tags: ["Vanilla JS", "Canvas 60FPS", "WebSocket", "Zero-Framework"]
+    },
+    {
+      id: "2",
+      title: "Vanguard • Zero-Runtime Enterprise System",
+      category: "Enterprise UI Architecture",
+      client: "Enterprise SaaS • 2023",
+      image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80",
+      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      description: "Enterprise design token library and modular component ecosystem written entirely in CSS Custom Properties and semantic web components with 0 KB JavaScript runtime cost.",
+      tags: ["CSS Architecture", "Web Components", "0 KB JS", "Shadow DOM"]
+    },
+    {
+      id: "3",
+      title: "Chronos • Sub-200ms Instant Checkout Portal",
+      category: "E-Commerce Systems",
+      client: "High-Volume Retail • 2023",
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
+      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      description: "High-conversion e-commerce storefront engineered with precomputed state machines, speculative link prefetching, and sub-200ms checkout transitions.",
+      tags: ["Speculative Prefetch", "State Machines", "Edge Cache", "Core Web Vitals"]
+    },
+    {
+      id: "4",
+      title: "Aether Stream • Audio Processing WebAssembly Synth",
+      category: "WebAudio / AudioDSP",
+      client: "Creative Studio • 2024",
+      image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80",
+      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      description: "In-browser multi-track synthesizer running native C++ DSP via WebAssembly audio worklets with sub-5ms roundtrip latency and hardware acceleration.",
+      tags: ["WebAudio API", "Wasm DSP", "Canvas FFT", "AudioWorklet"]
+    },
+    {
+      id: "5",
+      title: "Helios • Decentralized Storage Telemetry Visualizer",
+      category: "Infrastructure Analytics",
+      client: "Cloud Storage Network • 2022",
+      image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
+      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      description: "Live node cluster visualization managing 10,000 active nodes with memory-safe ring buffers, spatial indexing, and zero layout thrashing.",
+      tags: ["Spatial Indexing", "Binary Protocol", "Ring Buffers", "Memory-Safe"]
+    },
+    {
+      id: "6",
+      title: "Nexus Gate • Micro-Frontend Router & Orchestrator",
+      category: "Frontend Infrastructure",
+      client: "Fintech Platform • 2024",
+      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80",
+      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      description: "Ultra-lean micro-frontend orchestration kernel (2.4 KB) replacing heavy framework monorepos with native ES Module dynamic imports and isolated shadow DOM.",
+      tags: ["Micro-Frontends", "ES Modules", "Shadow DOM", "Micro-Kernel"]
+    }
+  ];
 
-  function getProjectsList() {
+  let projectsData = [];
+  let modalUploadedImage = '';
+
+  setupDragDrop(
+    'proj-img-drop-zone',
+    'proj-file-input',
+    'proj-preview-wrap',
+    'proj-preview-img',
+    'proj-preview-name',
+    'btn-remove-proj-img',
+    (dataUrl) => {
+      modalUploadedImage = dataUrl;
+      const urlInput = document.getElementById('proj-input-image');
+      if (urlInput) urlInput.value = dataUrl;
+    }
+  );
+
+  function loadProjectsData() {
     try {
-      const data = localStorage.getItem('alfaiz_portfolio_v2');
-      if (data) {
-        const parsed = JSON.parse(data);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      const stored = localStorage.getItem('alfaiz_portfolio_v2');
+      if (stored) {
+        projectsData = JSON.parse(stored);
+      } else {
+        projectsData = [...DEFAULT_PROJECTS];
+        localStorage.setItem('alfaiz_portfolio_v2', JSON.stringify(projectsData));
       }
     } catch (e) {
-      console.warn('Error reading projects', e);
+      projectsData = [...DEFAULT_PROJECTS];
     }
-    // Fallback if empty
-    return [
-      {
-        id: "1",
-        title: "Nexus Global Financial Engine",
-        category: "Fintech Core",
-        filterCat: "fintech",
-        badge: "99/100 SPEED",
-        summary: "An ultra-low latency liquidity engine and currency terminal handling real-time WebSocket feeds with 60FPS fluid canvas visualizations.",
-        coverImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&h=450&q=80",
-        videoUrl: "https://www.youtube-nocookie.com/embed/ScMzIvxBSi4?rel=0&modestbranding=1",
-        tags: ["Pure Vanilla JS", "WebSocket", "Canvas 2D", "Binary Buffers"]
-      },
-      {
-        id: "2",
-        title: "Veloce Headless Commerce Core",
-        category: "E-Commerce Architecture",
-        filterCat: "ecommerce",
-        badge: "100/100 SPEED",
-        summary: "Custom-built shopping engine designed for high-concurrency flash sales. Replaced a sluggish 3.2MB legacy storefront with a modular 35KB vanilla engine.",
-        coverImage: "https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=800&h=450&q=80",
-        videoUrl: "https://www.youtube-nocookie.com/embed/ScMzIvxBSi4?rel=0&modestbranding=1",
-        tags: ["HTML5 Template", "IndexedDB", "Vanilla Router", "Edge Caching"]
-      },
-      {
-        id: "3",
-        title: "Aether Multi-Cloud Observability",
-        category: "Cloud Systems",
-        filterCat: "cloud",
-        badge: "ENTERPRISE SCALE",
-        summary: "Real-time distributed telemetry dashboard for multi-region clusters. Features native SVG charting, asynchronous event streaming, and custom reactive micro-stores.",
-        coverImage: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&h=450&q=80",
-        videoUrl: "https://www.youtube-nocookie.com/embed/ScMzIvxBSi4?rel=0&modestbranding=1",
-        tags: ["Native SVG", "Server-Sent Events", "Micro-Store", "Web Workers"]
-      }
-    ];
-  }
-
-  function saveProjectsList(projects) {
-    localStorage.setItem('alfaiz_portfolio_v2', JSON.stringify(projects));
+    renderProjectsTable();
+    updateDashboardCards();
   }
 
   function renderProjectsTable() {
-    if (!projectsTableBody) return;
-    const projects = getProjectsList();
-    projectsTableBody.innerHTML = '';
+    const tbody = document.getElementById('projects-crud-tbody');
+    if (!tbody) return;
 
-    if (projects.length === 0) {
-      projectsTableBody.innerHTML = `
-        <tr>
-          <td colspan="6" style="text-align: center; color: var(--admin-text-dim); padding: 30px;">
-            No projects in database. Add your first system deployment above.
-          </td>
-        </tr>
-      `;
+    if (projectsData.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 32px; color: #64748B;">No projects registered. Click "Add New Project" to create one.</td></tr>`;
       return;
     }
 
-    projects.forEach(project => {
-      const row = document.createElement('tr');
-      const tagsBadges = (project.tags || []).slice(0, 2).map(t => `<span class="table-badge">${t}</span>`).join(' ');
-
-      row.innerHTML = `
+    tbody.innerHTML = projectsData.map((p, idx) => `
+      <tr>
         <td>
-          <img src="${project.coverImage || 'https://via.placeholder.com/80x50'}" alt="${project.title}" class="table-thumb" onerror="this.src='https://via.placeholder.com/80x50'">
+          <img src="${p.image || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'}" alt="${p.title}" class="table-thumb">
         </td>
         <td>
-          <strong>${project.title}</strong>
-          <div style="font-size: 0.76rem; color: var(--admin-text-dim);">ID: ${project.id}</div>
+          <div style="font-weight: 700; color: #0F172A;">${p.title}</div>
+          <div style="font-size: 0.75rem; color: #0F6CBD;">${p.category || 'Architecture'}</div>
         </td>
-        <td><span class="table-badge">${project.category || 'Architecture'}</span></td>
-        <td>${tagsBadges}</td>
-        <td><span style="color: #10B981; font-weight: 700; font-size: 0.78rem;">${project.badge || 'ACTIVE'}</span></td>
         <td>
-          <div class="table-actions">
-            <button class="admin-btn admin-btn-secondary" style="padding: 5px 12px; font-size: 0.78rem;" onclick="editProject('${project.id}')">
-              Edit
+          <div style="display: flex; gap: 4px; flex-wrap: wrap;">
+            ${(p.tags || []).slice(0, 3).map(t => `<span style="background: #EDF5FE; color: #0F6CBD; font-size: 0.7rem; font-weight: 700; padding: 2px 6px; border-radius: 4px;">${t}</span>`).join('')}
+          </div>
+        </td>
+        <td>
+          <span style="font-size: 0.75rem; color: ${p.videoUrl ? '#10B981' : '#94A3B8'}; font-weight: 700;">
+            ${p.videoUrl ? '✓ Video Linked' : 'No Video'}
+          </span>
+        </td>
+        <td style="text-align: right;">
+          <div class="table-actions" style="justify-content: flex-end;">
+            <button type="button" class="action-icon-btn btn-edit-proj" data-index="${idx}" title="Edit Project">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
             </button>
-            <button class="admin-btn admin-btn-danger" style="padding: 5px 12px; font-size: 0.78rem;" onclick="deleteProject('${project.id}')">
-              Delete
+            <button type="button" class="action-icon-btn btn-delete btn-delete-proj" data-index="${idx}" title="Delete Project">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
             </button>
           </div>
         </td>
-      `;
-      projectsTableBody.appendChild(row);
+      </tr>
+    `).join('');
+
+    // Attach row events
+    tbody.querySelectorAll('.btn-edit-proj').forEach(btn => {
+      btn.addEventListener('click', () => openProjectModal(parseInt(btn.dataset.index, 10)));
+    });
+
+    tbody.querySelectorAll('.btn-delete-proj').forEach(btn => {
+      btn.addEventListener('click', () => deleteProject(parseInt(btn.dataset.index, 10)));
     });
   }
 
-  // Global delete & edit hooks
-  window.deleteProject = function(id) {
-    if (confirm(`Confirm permanent deletion of Project ID #${id}?`)) {
-      let projects = getProjectsList();
-      projects = projects.filter(p => String(p.id) !== String(id));
-      saveProjectsList(projects);
-      renderProjectsTable();
-      showToast(`Project #${id} removed successfully.`);
-    }
-  };
+  const projModal = document.getElementById('modal-project');
+  const projModalTitle = document.getElementById('project-modal-title');
+  const btnOpenAddProject = document.getElementById('btn-open-add-project');
+  const btnCloseProjModal = document.getElementById('btn-close-project-modal');
+  const btnCancelProj = document.getElementById('btn-cancel-project');
+  const btnSaveProj = document.getElementById('btn-save-project');
 
-  window.editProject = function(id) {
-    const projects = getProjectsList();
-    const project = projects.find(p => String(p.id) === String(id));
-    if (!project) return;
+  const pIdInput = document.getElementById('project-edit-id');
+  const pTitleInput = document.getElementById('proj-input-title');
+  const pCatInput = document.getElementById('proj-input-category');
+  const pClientInput = document.getElementById('proj-input-client');
+  const pImgUrlInput = document.getElementById('proj-input-image');
+  const pVideoInput = document.getElementById('proj-input-video');
+  const pDescInput = document.getElementById('proj-input-desc');
+  const pTagsInput = document.getElementById('proj-input-tags');
 
-    if (projectIdField) projectIdField.value = project.id;
-    if (projectTitleInput) projectTitleInput.value = project.title || '';
-    if (projectCatInput) projectCatInput.value = project.category || '';
-    if (projectBadgeInput) projectBadgeInput.value = project.badge || '';
-    if (projectImgInput) projectImgInput.value = project.coverImage || '';
-    if (projectVideoInput) projectVideoInput.value = project.videoUrl || '';
-    if (projectDescInput) projectDescInput.value = project.summary || '';
-    if (projectTagsInput) projectTagsInput.value = (project.tags || []).join(', ');
+  function openProjectModal(index = -1) {
+    modalUploadedImage = '';
+    const imgPreview = document.getElementById('proj-preview-img');
+    const wrapPreview = document.getElementById('proj-preview-wrap');
+    if (wrapPreview) wrapPreview.classList.remove('active');
 
-    if (projectSubmitBtn) projectSubmitBtn.textContent = 'Update Existing System Spec';
-    if (projectCancelBtn) projectCancelBtn.style.display = 'inline-flex';
+    if (index >= 0 && projectsData[index]) {
+      const p = projectsData[index];
+      projModalTitle.textContent = 'Edit Project';
+      pIdInput.value = index.toString();
+      pTitleInput.value = p.title || '';
+      pCatInput.value = p.category || '';
+      pClientInput.value = p.client || '';
+      pImgUrlInput.value = p.image || '';
+      pVideoInput.value = p.videoUrl || '';
+      pDescInput.value = p.description || '';
+      pTagsInput.value = (p.tags || []).join(', ');
 
-    projectTitleInput.focus();
-    projectTitleInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  };
-
-  if (projectCancelBtn) {
-    projectCancelBtn.addEventListener('click', () => {
-      projectForm.reset();
-      projectIdField.value = '';
-      projectSubmitBtn.textContent = 'Add System to Portfolio';
-      projectCancelBtn.style.display = 'none';
-    });
-  }
-
-  if (projectForm) {
-    projectForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      const projects = getProjectsList();
-      const existingId = projectIdField.value;
-
-      const tagsArray = projectTagsInput.value
-        .split(',')
-        .map(t => t.trim())
-        .filter(t => t.length > 0);
-
-      if (existingId) {
-        // Update existing project
-        const index = projects.findIndex(p => String(p.id) === String(existingId));
-        if (index !== -1) {
-          projects[index] = {
-            ...projects[index],
-            title: projectTitleInput.value.trim(),
-            category: projectCatInput.value.trim(),
-            badge: projectBadgeInput.value.trim() || 'PROJECT',
-            coverImage: projectImgInput.value.trim(),
-            videoUrl: projectVideoInput.value.trim(),
-            summary: projectDescInput.value.trim(),
-            tags: tagsArray
-          };
-          saveProjectsList(projects);
-          showToast(`Project #${existingId} updated successfully.`);
-        }
-      } else {
-        // Create new project
-        const newId = String(Date.now());
-        const newProject = {
-          id: newId,
-          title: projectTitleInput.value.trim(),
-          category: projectCatInput.value.trim() || 'Enterprise Web',
-          filterCat: 'enterprise',
-          badge: projectBadgeInput.value.trim() || 'NEW DEPLOYMENT',
-          subtitle: 'High performance enterprise architecture',
-          summary: projectDescInput.value.trim(),
-          fullDescription: projectDescInput.value.trim(),
-          coverImage: projectImgInput.value.trim() || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&h=450&q=80',
-          gallery: [projectImgInput.value.trim() || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&h=675&q=80'],
-          videoUrl: projectVideoInput.value.trim() || 'https://www.youtube-nocookie.com/embed/ScMzIvxBSi4?rel=0&modestbranding=1',
-          metrics: { payload: '22 KB', fcp: '0.2s', lcp: '0.3s', fps: '60 FPS' },
-          tags: tagsArray.length > 0 ? tagsArray : ['Vanilla JS', 'Performance', 'Enterprise'],
-          client: 'Enterprise Client',
-          year: new Date().getFullYear().toString(),
-          status: 'Production Live'
-        };
-        projects.unshift(newProject);
-        saveProjectsList(projects);
-        showToast('New project system added to portfolio!');
+      if (p.image) {
+        if (imgPreview) imgPreview.src = p.image;
+        if (wrapPreview) wrapPreview.classList.add('active');
+        modalUploadedImage = p.image;
       }
-
-      projectForm.reset();
-      projectIdField.value = '';
-      projectSubmitBtn.textContent = 'Add System to Portfolio';
-      projectCancelBtn.style.display = 'none';
-      renderProjectsTable();
-    });
-  }
-
-  if (resetProjectsBtn) {
-    resetProjectsBtn.addEventListener('click', () => {
-      if (confirm('Reset portfolio to 6 default enterprise systems? This will overwrite local changes.')) {
-        localStorage.removeItem('alfaiz_portfolio_v2');
-        renderProjectsTable();
-        showToast('Projects reset to default matrix.');
-      }
-    });
-  }
-
-  // ==========================================================================
-  // 6. Fiverr Gig Image Generator (Canvas 1280x769)
-  // ==========================================================================
-  const gigCanvas = document.getElementById('gig-canvas');
-  const gigTitleInput = document.getElementById('gig-title-input');
-  const gigSubtitleInput = document.getElementById('gig-subtitle-input');
-  const gigBadgeInput = document.getElementById('gig-badge-input');
-  const gigBullet1Input = document.getElementById('gig-bullet-1');
-  const gigBullet2Input = document.getElementById('gig-bullet-2');
-  const gigBullet3Input = document.getElementById('gig-bullet-3');
-  const gigThemeSelect = document.getElementById('gig-theme-select');
-  const downloadGigBtn = document.getElementById('download-gig-btn');
-
-  function renderGigCanvas() {
-    if (!gigCanvas) return;
-    const ctx = gigCanvas.getContext('2d');
-
-    // Strict Fiverr Gig Resolution: 1280 x 769
-    const W = 1280;
-    const H = 769;
-
-    const title = gigTitleInput ? gigTitleInput.value : 'ARCHITECTING FUTURE-READY WEB SYSTEMS';
-    const subtitle = gigSubtitleInput ? gigSubtitleInput.value : 'Pure Vanilla Performance • Sub-Second 0.3s Latency • Zero Framework Bloat';
-    const badge = gigBadgeInput ? gigBadgeInput.value : 'VERIFIED PRO ARCHITECT • TOP RATED';
-    const bullet1 = gigBullet1Input ? gigBullet1Input.value : '✔ 100/100 Google Core Web Vitals Guaranteed';
-    const bullet2 = gigBullet2Input ? gigBullet2Input.value : '✔ Sub-Millisecond WebSocket & 3D Glass UI';
-    const bullet3 = gigBullet3Input ? gigBullet3Input.value : '✔ 0 KB Framework Dependencies • Instant Render';
-    const theme = gigThemeSelect ? gigThemeSelect.value : 'navy';
-
-    // 1. Background Fill
-    if (theme === 'navy') {
-      const grad = ctx.createLinearGradient(0, 0, W, H);
-      grad.addColorStop(0, '#061325');
-      grad.addColorStop(0.5, '#0A1931');
-      grad.addColorStop(1, '#082042');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, W, H);
-    } else if (theme === 'cyan') {
-      const grad = ctx.createLinearGradient(0, 0, W, H);
-      grad.addColorStop(0, '#020b18');
-      grad.addColorStop(1, '#06284d');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, W, H);
     } else {
-      // Solid Modern Enterprise
-      ctx.fillStyle = '#0B192C';
-      ctx.fillRect(0, 0, W, H);
+      projModalTitle.textContent = 'Add New Project';
+      pIdInput.value = '-1';
+      pTitleInput.value = '';
+      pCatInput.value = 'Web Architecture';
+      pClientInput.value = 'Enterprise Client • 2024';
+      pImgUrlInput.value = '';
+      pVideoInput.value = '';
+      pDescInput.value = '';
+      pTagsInput.value = 'Vanilla JS, CSS3, Performance';
     }
 
-    // 2. Ambient Hexagons & Geometry
-    ctx.save();
-    ctx.strokeStyle = 'rgba(15, 108, 189, 0.2)';
-    ctx.lineWidth = 1.5;
+    if (projModal) projModal.classList.add('active');
+  }
 
-    function drawHex(x, y, radius) {
-      ctx.beginPath();
-      for (let i = 0; i < 6; i++) {
-        const angle = (Math.PI / 3) * i - Math.PI / 6;
-        const hx = x + radius * Math.cos(angle);
-        const hy = y + radius * Math.sin(angle);
-        if (i === 0) ctx.moveTo(hx, hy);
-        else ctx.lineTo(hx, hy);
+  function closeProjectModal() {
+    if (projModal) projModal.classList.remove('active');
+  }
+
+  if (btnOpenAddProject) btnOpenAddProject.addEventListener('click', () => openProjectModal(-1));
+  if (btnCloseProjModal) btnCloseProjModal.addEventListener('click', closeProjectModal);
+  if (btnCancelProj) btnCancelProj.addEventListener('click', closeProjectModal);
+
+  if (btnSaveProj) {
+    btnSaveProj.addEventListener('click', () => {
+      const title = pTitleInput.value.trim();
+      if (!title) {
+        alert('Please enter a project title');
+        return;
       }
-      ctx.closePath();
-      ctx.stroke();
-    }
 
-    drawHex(1150, 200, 140);
-    drawHex(1150, 480, 100);
-    drawHex(1020, 340, 75);
-    drawHex(160, 680, 110);
-    drawHex(80, 220, 60);
+      const tagsArray = pTagsInput.value.split(',').map(s => s.trim()).filter(Boolean);
+      const imgVal = modalUploadedImage || pImgUrlInput.value.trim() || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80';
 
-    // Glowing Radial Light on Top-Right
-    const glow = ctx.createRadialGradient(1080, 260, 10, 1080, 260, 450);
-    glow.addColorStop(0, 'rgba(15, 108, 189, 0.35)');
-    glow.addColorStop(0.5, 'rgba(10, 61, 107, 0.15)');
-    glow.addColorStop(1, 'transparent');
-    ctx.fillStyle = glow;
-    ctx.fillRect(600, 0, 680, 769);
-    ctx.restore();
-
-    // 3. 3D Glass Ribbon Accent on Canvas
-    ctx.save();
-    ctx.shadowColor = 'rgba(15, 108, 189, 0.4)';
-    ctx.shadowBlur = 30;
-    const ribbonGrad = ctx.createLinearGradient(900, 150, 1200, 450);
-    ribbonGrad.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
-    ribbonGrad.addColorStop(0.5, 'rgba(15, 108, 189, 0.25)');
-    ribbonGrad.addColorStop(1, 'rgba(10, 61, 107, 0.4)');
-    ctx.fillStyle = ribbonGrad;
-    ctx.strokeStyle = 'rgba(56, 189, 248, 0.5)';
-    ctx.lineWidth = 2;
-
-    ctx.beginPath();
-    ctx.roundRect(880, 170, 320, 180, 24);
-    ctx.fill();
-    ctx.stroke();
-
-    // Inner Specular Light
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
-    ctx.beginPath();
-    ctx.ellipse(1040, 230, 120, 35, -Math.PI / 8, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Inside the glass card: 99.9% Core Web Vitals
-    ctx.fillStyle = '#FFFFFF';
-    ctx.font = 'bold 38px "Space Grotesk", sans-serif';
-    ctx.fillText('99.9%', 920, 250);
-    ctx.fillStyle = '#38BDF8';
-    ctx.font = '600 16px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText('CORE WEB VITALS', 920, 280);
-    ctx.fillStyle = '#94A3B8';
-    ctx.font = '500 14px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText('< 0.3s Global Latency', 920, 305);
-    ctx.restore();
-
-    // 4. Content Area Left (X = 90)
-    // Brand Watermark / Top Header
-    ctx.fillStyle = '#38BDF8';
-    ctx.font = '800 20px "Space Grotesk", sans-serif';
-    ctx.letterSpacing = '3px';
-    ctx.fillText('ALFAIZ // WEB ARCHITECT', 90, 105);
-
-    // Top Badge Pill
-    ctx.save();
-    ctx.fillStyle = 'rgba(15, 108, 189, 0.25)';
-    ctx.strokeStyle = '#0F6CBD';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.roundRect(90, 135, 420, 38, 19);
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.fillStyle = '#38BDF8';
-    ctx.font = 'bold 14px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText('★  ' + badge.toUpperCase(), 114, 160);
-    ctx.restore();
-
-    // Main Big Headline (Multi-line)
-    ctx.save();
-    ctx.fillStyle = '#FFFFFF';
-    ctx.font = '800 50px "Plus Jakarta Sans", sans-serif';
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
-    ctx.shadowBlur = 12;
-
-    const words = title.split(' ');
-    let line1 = words.slice(0, 3).join(' ');
-    let line2 = words.slice(3, 7).join(' ');
-    let line3 = words.slice(7).join(' ');
-
-    ctx.fillText(line1, 90, 235);
-    // Draw Gradient Line for middle phrase
-    const textGrad = ctx.createLinearGradient(90, 0, 600, 0);
-    textGrad.addColorStop(0, '#38BDF8');
-    textGrad.addColorStop(1, '#0F6CBD');
-    ctx.fillStyle = textGrad;
-    ctx.fillText(line2, 90, 295);
-
-    ctx.fillStyle = '#FFFFFF';
-    if (line3) {
-      ctx.fillText(line3, 90, 355);
-    }
-    ctx.restore();
-
-    // Subtitle
-    ctx.fillStyle = '#94A3B8';
-    ctx.font = '500 20px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText(subtitle, 90, 415);
-
-    // Divider Line
-    ctx.strokeStyle = 'rgba(15, 108, 189, 0.3)';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(90, 450);
-    ctx.lineTo(820, 450);
-    ctx.stroke();
-
-    // 3 Feature Bullets
-    ctx.fillStyle = '#FFFFFF';
-    ctx.font = '600 22px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText(bullet1, 90, 505);
-    ctx.fillText(bullet2, 90, 555);
-    ctx.fillText(bullet3, 90, 605);
-
-    // Bottom Trust Bar
-    ctx.save();
-    ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
-    ctx.strokeStyle = 'rgba(15, 108, 189, 0.25)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.roundRect(90, 645, 1100, 60, 14);
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.fillStyle = '#38BDF8';
-    ctx.font = '700 15px "Space Grotesk", sans-serif';
-    ctx.fillText('FIVERR EXCLUSIVE GIG', 120, 680);
-
-    ctx.fillStyle = '#E2E8F0';
-    ctx.font = '600 15px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText('24H FAST-TRACK AVAILABLE • ESCROW PROTECTED • 100% 5-STAR DELIVERY', 360, 680);
-    ctx.restore();
-  }
-
-  // Trigger gig redraw on input changes
-  [gigTitleInput, gigSubtitleInput, gigBadgeInput, gigBullet1Input, gigBullet2Input, gigBullet3Input, gigThemeSelect].forEach(input => {
-    if (input) {
-      input.addEventListener('input', renderGigCanvas);
-      input.addEventListener('change', renderGigCanvas);
-    }
-  });
-
-  // Download Gig Image Button
-  if (downloadGigBtn && gigCanvas) {
-    downloadGigBtn.addEventListener('click', () => {
-      renderGigCanvas();
-      const link = document.createElement('a');
-      link.download = 'fiverr-gig-alfaiz-1280x769.png';
-      link.href = gigCanvas.toDataURL('image/png', 1.0);
-      link.click();
-      showToast('Fiverr Gig Canvas exported (1280x769 PNG)!');
-    });
-  }
-
-  // ==========================================================================
-  // 7. Loader Settings Management ('alfaiz_loader_settings')
-  // ==========================================================================
-  const loaderForm = document.getElementById('loader-settings-form');
-  const loaderTypeSelect = document.getElementById('loader-type-select');
-  const loaderSpeedSelect = document.getElementById('loader-speed-select');
-  const loaderColorInput = document.getElementById('loader-color-input');
-  const testLoaderBtn = document.getElementById('test-loader-btn');
-
-  function loadLoaderSettings() {
-    const saved = localStorage.getItem('alfaiz_loader_settings');
-    const data = saved ? JSON.parse(saved) : {
-      type: 'circle',
-      speed: 'normal',
-      color: '#0F6CBD'
-    };
-
-    if (loaderTypeSelect) loaderTypeSelect.value = data.type || 'circle';
-    if (loaderSpeedSelect) loaderSpeedSelect.value = data.speed || 'normal';
-    if (loaderColorInput) loaderColorInput.value = data.color || '#0F6CBD';
-  }
-
-  if (loaderForm) {
-    loaderForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const data = {
-        type: loaderTypeSelect.value,
-        speed: loaderSpeedSelect.value,
-        color: loaderColorInput.value,
-        updatedAt: new Date().toISOString()
+      const projectObj = {
+        id: (Date.now()).toString(),
+        title: title,
+        category: pCatInput.value.trim() || 'Web Architecture',
+        client: pClientInput.value.trim(),
+        image: imgVal,
+        videoUrl: pVideoInput.value.trim(),
+        description: pDescInput.value.trim(),
+        tags: tagsArray.length > 0 ? tagsArray : ['Vanilla JS', 'High Performance']
       };
-      localStorage.setItem('alfaiz_loader_settings', JSON.stringify(data));
-      showToast('Loader configuration saved!');
+
+      const idx = parseInt(pIdInput.value, 10);
+      if (idx >= 0 && projectsData[idx]) {
+        projectObj.id = projectsData[idx].id;
+        projectsData[idx] = projectObj;
+        logActivity(`Project '${title}' modified`);
+        showToast('Project updated successfully!');
+      } else {
+        projectsData.unshift(projectObj);
+        logActivity(`New project '${title}' added`);
+        showToast('New project created successfully!');
+      }
+
+      localStorage.setItem('alfaiz_portfolio_v2', JSON.stringify(projectsData));
+      renderProjectsTable();
+      closeProjectModal();
     });
   }
 
-  if (testLoaderBtn) {
-    testLoaderBtn.addEventListener('click', () => {
-      const type = loaderTypeSelect.value;
-      const speed = loaderSpeedSelect.value;
-      showToast(`Loader Preview: Type [${type.toUpperCase()}] • Speed [${speed.toUpperCase()}]`);
+  function deleteProject(idx) {
+    if (projectsData[idx]) {
+      const title = projectsData[idx].title;
+      if (confirm(`Delete project "${title}"?`)) {
+        projectsData.splice(idx, 1);
+        localStorage.setItem('alfaiz_portfolio_v2', JSON.stringify(projectsData));
+        logActivity(`Project '${title}' removed`);
+        showToast('Project deleted successfully!');
+        renderProjectsTable();
+      }
+    }
+  }
+
+  // ==========================================================================
+  // 9. Experience CRUD Matrix
+  // ==========================================================================
+  const DEFAULT_EXPERIENCE = [
+    {
+      id: "exp-1",
+      role: "Principal Web Architect",
+      company: "Enterprise Distributed Systems",
+      period: "2023 - PRESENT",
+      location: "Remote / Global Enterprise",
+      summary: "Directing frontend architectural strategy for high-scale enterprise platforms. Led comprehensive migration initiatives eliminating bloated legacy framework monoliths in favor of ultra-lean vanilla micro-frontends.",
+      tags: ["Vanilla JS", "Micro-frontends", "Web Workers", "Edge Computing"]
+    },
+    {
+      id: "exp-2",
+      role: "Senior Performance Engineer",
+      company: "Fintech Real-Time Infrastructure",
+      period: "2021 - 2023",
+      location: "New York / Hybrid",
+      summary: "Architected high-throughput financial telemetry dashboards rendering live WebSocket ticks at sustained 60FPS using native HTML5 Canvas visualizers and strict garbage collection policies.",
+      tags: ["Canvas API", "WebSocket", "Memory Profiling", "Zero GC Pause"]
+    },
+    {
+      id: "exp-3",
+      role: "Frontend Systems Architect",
+      company: "Hyper-Growth SaaS Infrastructure",
+      period: "2019 - 2021",
+      location: "San Francisco / Remote",
+      summary: "Spearheaded design token distribution and headless component engines serving 40M+ monthly pageviews with zero runtime CSS dependencies and sub-200ms TTFB globally.",
+      tags: ["Design Tokens", "CSS Custom Properties", "Web Components", "Core Web Vitals"]
+    }
+  ];
+
+  let experienceData = [];
+
+  function loadExperienceData() {
+    try {
+      const stored = localStorage.getItem('alfaiz_experience');
+      if (stored) {
+        experienceData = JSON.parse(stored);
+      } else {
+        experienceData = [...DEFAULT_EXPERIENCE];
+        localStorage.setItem('alfaiz_experience', JSON.stringify(experienceData));
+      }
+    } catch (e) {
+      experienceData = [...DEFAULT_EXPERIENCE];
+    }
+    renderExperienceTable();
+  }
+
+  function renderExperienceTable() {
+    const tbody = document.getElementById('experience-crud-tbody');
+    if (!tbody) return;
+
+    if (experienceData.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 32px; color: #64748B;">No positions registered. Click "Add New Job Position" to create one.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = experienceData.map((e, idx) => `
+      <tr>
+        <td>
+          <div style="font-weight: 700; color: #0F172A;">${e.role}</div>
+          <div style="font-size: 0.75rem; color: #0F6CBD;">${e.company}</div>
+        </td>
+        <td><span style="font-size: 0.78rem; font-weight: 700;">${e.period}</span></td>
+        <td><span style="font-size: 0.78rem; color: #64748B;">${e.location || 'Remote'}</span></td>
+        <td><div style="font-size: 0.78rem; max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${e.summary}</div></td>
+        <td style="text-align: right;">
+          <div class="table-actions" style="justify-content: flex-end;">
+            <button type="button" class="action-icon-btn btn-edit-exp" data-index="${idx}" title="Edit Position">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+            </button>
+            <button type="button" class="action-icon-btn btn-delete btn-delete-exp" data-index="${idx}" title="Delete Position">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+
+    tbody.querySelectorAll('.btn-edit-exp').forEach(btn => {
+      btn.addEventListener('click', () => openExpModal(parseInt(btn.dataset.index, 10)));
+    });
+
+    tbody.querySelectorAll('.btn-delete-exp').forEach(btn => {
+      btn.addEventListener('click', () => deleteExperience(parseInt(btn.dataset.index, 10)));
+    });
+  }
+
+  const expModal = document.getElementById('modal-experience');
+  const expModalTitle = document.getElementById('exp-modal-title');
+  const btnOpenAddExp = document.getElementById('btn-open-add-experience');
+  const btnCloseExpModal = document.getElementById('btn-close-exp-modal');
+  const btnCancelExp = document.getElementById('btn-cancel-exp');
+  const btnSaveExp = document.getElementById('btn-save-exp');
+
+  const expIdInput = document.getElementById('exp-edit-id');
+  const expRoleInput = document.getElementById('exp-input-role');
+  const expCompInput = document.getElementById('exp-input-company');
+  const expPeriodInput = document.getElementById('exp-input-period');
+  const expLocInput = document.getElementById('exp-input-location');
+  const expSummInput = document.getElementById('exp-input-summary');
+  const expTagsInput = document.getElementById('exp-input-tags');
+
+  function openExpModal(index = -1) {
+    if (index >= 0 && experienceData[index]) {
+      const e = experienceData[index];
+      expModalTitle.textContent = 'Edit Job Position';
+      expIdInput.value = index.toString();
+      expRoleInput.value = e.role || '';
+      expCompInput.value = e.company || '';
+      expPeriodInput.value = e.period || '';
+      expLocInput.value = e.location || '';
+      expSummInput.value = e.summary || '';
+      expTagsInput.value = (e.tags || []).join(', ');
+    } else {
+      expModalTitle.textContent = 'Add Job Position';
+      expIdInput.value = '-1';
+      expRoleInput.value = '';
+      expCompInput.value = '';
+      expPeriodInput.value = '2024 - PRESENT';
+      expLocInput.value = 'Remote';
+      expSummInput.value = '';
+      expTagsInput.value = 'Vanilla JS, Performance, Web Architecture';
+    }
+
+    if (expModal) expModal.classList.add('active');
+  }
+
+  function closeExpModal() {
+    if (expModal) expModal.classList.remove('active');
+  }
+
+  if (btnOpenAddExp) btnOpenAddExp.addEventListener('click', () => openExpModal(-1));
+  if (btnCloseExpModal) btnCloseExpModal.addEventListener('click', closeExpModal);
+  if (btnCancelExp) btnCancelExp.addEventListener('click', closeExpModal);
+
+  if (btnSaveExp) {
+    btnSaveExp.addEventListener('click', () => {
+      const role = expRoleInput.value.trim();
+      const comp = expCompInput.value.trim();
+      if (!role || !comp) {
+        alert('Please fill out the Role and Company fields');
+        return;
+      }
+
+      const tagsArray = expTagsInput.value.split(',').map(s => s.trim()).filter(Boolean);
+      const expObj = {
+        id: 'exp-' + Date.now(),
+        role: role,
+        company: comp,
+        period: expPeriodInput.value.trim() || '2024 - PRESENT',
+        location: expLocInput.value.trim() || 'Remote',
+        summary: expSummInput.value.trim(),
+        tags: tagsArray
+      };
+
+      const idx = parseInt(expIdInput.value, 10);
+      if (idx >= 0 && experienceData[idx]) {
+        experienceData[idx] = expObj;
+        logActivity(`Experience '${role}' at ${comp} updated`);
+        showToast('Experience position updated successfully!');
+      } else {
+        experienceData.unshift(expObj);
+        logActivity(`New position '${role}' at ${comp} added`);
+        showToast('New position added to experience timeline!');
+      }
+
+      localStorage.setItem('alfaiz_experience', JSON.stringify(experienceData));
+      renderExperienceTable();
+      closeExpModal();
+    });
+  }
+
+  function deleteExperience(idx) {
+    if (experienceData[idx]) {
+      const role = experienceData[idx].role;
+      if (confirm(`Delete position "${role}"?`)) {
+        experienceData.splice(idx, 1);
+        localStorage.setItem('alfaiz_experience', JSON.stringify(experienceData));
+        logActivity(`Position '${role}' deleted`);
+        showToast('Position removed from experience timeline!');
+        renderExperienceTable();
+      }
+    }
+  }
+
+  // ==========================================================================
+  // 10. Skills Matrix & Services CRUD
+  // ==========================================================================
+  const DEFAULT_SKILLS = [
+    { category: "Architectural Engineering", items: ["Vanilla JavaScript", "Micro-Frontends", "Web Workers", "Edge Computing", "Shadow DOM"] },
+    { category: "Performance & Profiling", items: ["Core Web Vitals 95+", "Lighthouse 100", "Memory Profiling", "Critical Render Path"] },
+    { category: "Graphics & Real-Time", items: ["HTML5 Canvas 60FPS", "WebAudio DSP", "WebSocket & SSE", "CSS3 3D Surfaces"] }
+  ];
+
+  let skillsData = [];
+
+  function loadSkillsData() {
+    try {
+      const stored = localStorage.getItem('alfaiz_skills');
+      if (stored) skillsData = JSON.parse(stored);
+      else skillsData = [...DEFAULT_SKILLS];
+    } catch (e) { skillsData = [...DEFAULT_SKILLS]; }
+    renderSkillsTable();
+  }
+
+  function renderSkillsTable() {
+    const tbody = document.getElementById('skills-crud-tbody');
+    if (!tbody) return;
+
+    tbody.innerHTML = skillsData.map((s, idx) => `
+      <tr>
+        <td style="font-weight: 700; color: #0F172A;">${s.category}</td>
+        <td>
+          <div style="display: flex; gap: 4px; flex-wrap: wrap;">
+            ${(s.items || []).map(i => `<span style="background: #F1F5F9; color: #0F172A; font-size: 0.72rem; padding: 2px 8px; border-radius: 4px; border: 1px solid #DBEAFE;">${i}</span>`).join('')}
+          </div>
+        </td>
+        <td style="text-align: right;">
+          <button type="button" class="action-icon-btn btn-delete" onclick="deleteSkill(${idx})" title="Delete Category">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+          </button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  window.deleteSkill = function(idx) {
+    if (confirm('Delete this skill category?')) {
+      skillsData.splice(idx, 1);
+      localStorage.setItem('alfaiz_skills', JSON.stringify(skillsData));
+      renderSkillsTable();
+      showToast('Skill category deleted');
+    }
+  };
+
+  const btnOpenAddSkill = document.getElementById('btn-open-add-skill');
+  if (btnOpenAddSkill) {
+    btnOpenAddSkill.addEventListener('click', () => {
+      const cat = prompt('Enter Skill Category Name (e.g. "DevOps & Cloud"):');
+      if (!cat) return;
+      const itemsStr = prompt('Enter Skills (comma-separated):', 'Docker, CI/CD, Edge Networks');
+      const items = (itemsStr || '').split(',').map(s => s.trim()).filter(Boolean);
+      skillsData.push({ category: cat, items });
+      localStorage.setItem('alfaiz_skills', JSON.stringify(skillsData));
+      renderSkillsTable();
+      logActivity(`Skill category '${cat}' added`);
+      showToast('New skill category added!');
+    });
+  }
+
+  // Services
+  const DEFAULT_SERVICES = [
+    { title: "Enterprise Web Architecture & Blueprinting", desc: "End-to-end frontend blueprinting and decoupling monolithic frontends into high-speed modular micro-frontends.", deliverables: "System Topology, Component Standards, Codebase Health Audit" },
+    { title: "High-Performance Vanilla JS Engineering", desc: "Bespoke web applications and client portals built entirely in native HTML5, modern CSS, and vanilla JS.", deliverables: "Zero Framework Vulnerabilities, Custom 3D Glass, Full Source Code" },
+    { title: "Core Web Vitals Auditing & Optimization", desc: "Exhaustive profiling of memory leaks, layout thrashing, and asset bloat to achieve perfect 95+ Lighthouse scores.", deliverables: "Deep Profiler Trace, Critical Render Path, 95+ Guarantee" }
+  ];
+
+  let servicesData = [];
+
+  function loadServicesData() {
+    try {
+      const stored = localStorage.getItem('alfaiz_services');
+      if (stored) servicesData = JSON.parse(stored);
+      else servicesData = [...DEFAULT_SERVICES];
+    } catch (e) { servicesData = [...DEFAULT_SERVICES]; }
+    renderServicesTable();
+  }
+
+  function renderServicesTable() {
+    const tbody = document.getElementById('services-crud-tbody');
+    if (!tbody) return;
+
+    tbody.innerHTML = servicesData.map((s, idx) => `
+      <tr>
+        <td style="font-weight: 700; color: #0F172A;">${s.title}</td>
+        <td><div style="font-size: 0.78rem; max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${s.desc}</div></td>
+        <td><span style="font-size: 0.75rem; color: #0F6CBD;">${s.deliverables}</span></td>
+        <td style="text-align: right;">
+          <button type="button" class="action-icon-btn btn-delete" onclick="deleteService(${idx})" title="Delete Service">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+          </button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  window.deleteService = function(idx) {
+    if (confirm('Delete this service package?')) {
+      servicesData.splice(idx, 1);
+      localStorage.setItem('alfaiz_services', JSON.stringify(servicesData));
+      renderServicesTable();
+      showToast('Service package deleted');
+    }
+  };
+
+  const btnOpenAddService = document.getElementById('btn-open-add-service');
+  if (btnOpenAddService) {
+    btnOpenAddService.addEventListener('click', () => {
+      const title = prompt('Enter Service Title:');
+      if (!title) return;
+      const desc = prompt('Enter Brief Description:');
+      const deliverables = prompt('Enter Deliverables Summary:');
+      servicesData.push({ title, desc: desc || '', deliverables: deliverables || '' });
+      localStorage.setItem('alfaiz_services', JSON.stringify(servicesData));
+      renderServicesTable();
+      logActivity(`Service package '${title}' added`);
+      showToast('New service package registered!');
     });
   }
 
   // ==========================================================================
-  // 8. SEO Section Management ('alfaiz_seo')
+  // 11. About Architect & Avatar Photo Drag & Drop
   // ==========================================================================
+  let uploadedArchitectPhoto = '';
+
+  setupDragDrop(
+    'architect-drop-zone',
+    'architect-file-input',
+    'architect-preview-wrap',
+    'architect-preview-img',
+    'architect-preview-name',
+    'btn-remove-architect-photo',
+    (dataUrl) => {
+      uploadedArchitectPhoto = dataUrl;
+      const photoWrap = document.getElementById('prev-about-photo-wrap');
+      if (photoWrap && dataUrl) {
+        photoWrap.innerHTML = `<img src="${dataUrl}" style="width: 100%; height: 100%; object-fit: cover;">`;
+      }
+    }
+  );
+
+  const aboutForm = document.getElementById('about-form');
+  const aboutName = document.getElementById('about-name');
+  const aboutRole = document.getElementById('about-role');
+  const aboutBio = document.getElementById('about-bio');
+  const statCompleted = document.getElementById('stat-completed');
+  const statRating = document.getElementById('stat-rating');
+  const statRender = document.getElementById('stat-render');
+  const statSla = document.getElementById('stat-sla');
+
+  // Preview elements
+  const prevAboutName = document.getElementById('prev-about-name');
+  const prevAboutRole = document.getElementById('prev-about-role');
+  const prevAboutBio = document.getElementById('prev-about-bio');
+  const prevStatComp = document.getElementById('prev-stat-completed');
+  const prevStatRate = document.getElementById('prev-stat-rating');
+
+  function bindAboutLivePreview() {
+    if (aboutName && prevAboutName) {
+      aboutName.addEventListener('input', () => prevAboutName.textContent = aboutName.value || 'ALFAIZ');
+    }
+    if (aboutRole && prevAboutRole) {
+      aboutRole.addEventListener('input', () => prevAboutRole.textContent = aboutRole.value || 'Principal Web Architect');
+    }
+    if (aboutBio && prevAboutBio) {
+      aboutBio.addEventListener('input', () => prevAboutBio.textContent = aboutBio.value || 'Over 8+ years specializing...');
+    }
+    if (statCompleted && prevStatComp) {
+      statCompleted.addEventListener('input', () => prevStatComp.textContent = statCompleted.value || '50+');
+    }
+    if (statRating && prevStatRate) {
+      statRating.addEventListener('input', () => prevStatRate.textContent = statRating.value || '100%');
+    }
+  }
+
+  function loadAboutData() {
+    try {
+      const data = JSON.parse(localStorage.getItem('alfaiz_about') || '{}');
+      if (aboutName) aboutName.value = data.name || 'ALFAIZ';
+      if (aboutRole) aboutRole.value = data.role || 'Principal Web Architect & Performance Systems Engineer';
+      if (aboutBio) aboutBio.value = data.bio || 'Over 8+ years specializing in high-concurrency client-side applications, performance auditing, and framework-free enterprise portals.';
+      if (statCompleted) statCompleted.value = data.completed || '50+';
+      if (statRating) statRating.value = data.rating || '100% 5-Star';
+      if (statRender) statRender.value = data.renderTime || '< 0.3s';
+      if (statSla) statSla.value = data.sla || '4 Hours';
+
+      if (data.photo) {
+        uploadedArchitectPhoto = data.photo;
+        const img = document.getElementById('architect-preview-img');
+        const wrap = document.getElementById('architect-preview-wrap');
+        if (img) img.src = data.photo;
+        if (wrap) wrap.classList.add('active');
+        const photoWrap = document.getElementById('prev-about-photo-wrap');
+        if (photoWrap) photoWrap.innerHTML = `<img src="${data.photo}" style="width: 100%; height: 100%; object-fit: cover;">`;
+      }
+
+      // Update preview
+      if (prevAboutName) prevAboutName.textContent = aboutName.value;
+      if (prevAboutRole) prevAboutRole.textContent = aboutRole.value;
+      if (prevAboutBio) prevAboutBio.textContent = aboutBio.value;
+      if (prevStatComp) prevStatComp.textContent = statCompleted.value;
+      if (prevStatRate) prevStatRate.textContent = statRating.value;
+    } catch (e) {}
+  }
+
+  if (aboutForm) {
+    aboutForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const config = {
+        name: aboutName.value.trim(),
+        role: aboutRole.value.trim(),
+        bio: aboutBio.value.trim(),
+        completed: statCompleted.value.trim(),
+        rating: statRating.value.trim(),
+        renderTime: statRender.value.trim(),
+        sla: statSla.value.trim(),
+        photo: uploadedArchitectPhoto || ''
+      };
+
+      localStorage.setItem('alfaiz_about', JSON.stringify(config));
+      logActivity('Architect about profile and stats updated');
+      showToast('About profile saved successfully!');
+    });
+  }
+
+  // ==========================================================================
+  // 12. Contact Channels & SLA Settings
+  // ==========================================================================
+  const contactForm = document.getElementById('contact-channels-form');
+  const contactEmail = document.getElementById('contact-email');
+  const contactSla = document.getElementById('contact-response-window');
+  const contactFiverr = document.getElementById('contact-fiverr-channel');
+
+  function loadContactData() {
+    try {
+      const data = JSON.parse(localStorage.getItem('alfaiz_contact') || '{}');
+      if (contactEmail) contactEmail.value = data.email || 'contact@alfaiz-architect.com';
+      if (contactSla) contactSla.value = data.sla || 'Within 4 business hours';
+      if (contactFiverr) contactFiverr.value = data.fiverrUrl || 'https://www.fiverr.com';
+    } catch (e) {}
+  }
+
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const config = {
+        email: contactEmail.value.trim(),
+        sla: contactSla.value.trim(),
+        fiverrUrl: contactFiverr.value.trim()
+      };
+      localStorage.setItem('alfaiz_contact', JSON.stringify(config));
+      logActivity('Contact channels and response SLAs updated');
+      showToast('Contact channels saved successfully!');
+    });
+  }
+
+  // ==========================================================================
+  // 13. External Links Matrix (Fiverr, GitHub, LinkedIn, Twitter)
+  // ==========================================================================
+  const linksForm = document.getElementById('external-links-form');
+  const extFiverr = document.getElementById('ext-fiverr-url');
+  const extGithub = document.getElementById('ext-github-url');
+  const extLinkedin = document.getElementById('ext-linkedin-url');
+  const extTwitter = document.getElementById('ext-twitter-url');
+
+  function loadLinksData() {
+    try {
+      const data = JSON.parse(localStorage.getItem('alfaiz_links') || '{}');
+      if (extFiverr) extFiverr.value = data.fiverr || 'https://www.fiverr.com';
+      if (extGithub) extGithub.value = data.github || 'https://github.com';
+      if (extLinkedin) extLinkedin.value = data.linkedin || 'https://linkedin.com';
+      if (extTwitter) extTwitter.value = data.twitter || 'https://x.com';
+    } catch (e) {}
+  }
+
+  if (linksForm) {
+    linksForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const config = {
+        fiverr: extFiverr.value.trim() || 'https://www.fiverr.com',
+        github: extGithub.value.trim() || 'https://github.com',
+        linkedin: extLinkedin.value.trim() || 'https://linkedin.com',
+        twitter: extTwitter.value.trim() || 'https://x.com'
+      };
+      localStorage.setItem('alfaiz_links', JSON.stringify(config));
+      logActivity('External links and Fiverr gig URL updated');
+      showToast('External links matrix saved successfully!');
+    });
+  }
+
+  // ==========================================================================
+  // 14. SEO & OG Image Drag & Drop
+  // ==========================================================================
+  let uploadedOgImage = '';
+
+  setupDragDrop(
+    'og-drop-zone',
+    'og-file-input',
+    'og-preview-wrap',
+    'og-preview-img',
+    'og-preview-name',
+    'btn-remove-og',
+    (dataUrl) => {
+      uploadedOgImage = dataUrl;
+    }
+  );
+
   const seoForm = document.getElementById('seo-form');
-  const seoTitleInput = document.getElementById('seo-title-input');
-  const seoDescInput = document.getElementById('seo-desc-input');
-  const seoKeywordsInput = document.getElementById('seo-keywords-input');
-  const serpTitlePreview = document.getElementById('serp-title-preview');
-  const serpDescPreview = document.getElementById('serp-desc-preview');
+  const seoTitle = document.getElementById('seo-title-input');
+  const seoDesc = document.getElementById('seo-desc-input');
+  const seoKw = document.getElementById('seo-keywords-input');
 
-  function loadSeoSettings() {
-    const saved = localStorage.getItem('alfaiz_seo');
-    const data = saved ? JSON.parse(saved) : {
-      title: 'ALFAIZ | Web Architect - High Performance Web Systems',
-      description: 'High-performance digital engineering crafted without framework overhead. Sub-second latency, rock-solid architectural stability, and frictionless scalability.',
-      keywords: 'Web Architect, Vanilla JS, Performance Engineering, Core Web Vitals, Enterprise Frontend'
-    };
+  const prevSeoTitle = document.getElementById('prev-seo-title');
+  const prevSeoDesc = document.getElementById('prev-seo-desc');
 
-    if (seoTitleInput) seoTitleInput.value = data.title;
-    if (seoDescInput) seoDescInput.value = data.description;
-    if (seoKeywordsInput) seoKeywordsInput.value = data.keywords;
-    updateSerpPreview();
+  if (seoTitle) {
+    seoTitle.addEventListener('input', () => {
+      if (prevSeoTitle) prevSeoTitle.textContent = seoTitle.value || 'ALFAIZ | Web Architect';
+    });
   }
 
-  function updateSerpPreview() {
-    if (serpTitlePreview && seoTitleInput) {
-      serpTitlePreview.textContent = seoTitleInput.value || 'ALFAIZ | Web Architect';
-    }
-    if (serpDescPreview && seoDescInput) {
-      serpDescPreview.textContent = seoDescInput.value || 'Architecting Future-Ready Web Systems With Pure Speed.';
-    }
+  if (seoDesc) {
+    seoDesc.addEventListener('input', () => {
+      if (prevSeoDesc) prevSeoDesc.textContent = seoDesc.value || 'High-performance digital engineering...';
+    });
   }
 
-  if (seoTitleInput) seoTitleInput.addEventListener('input', updateSerpPreview);
-  if (seoDescInput) seoDescInput.addEventListener('input', updateSerpPreview);
+  function loadSeoData() {
+    try {
+      const data = JSON.parse(localStorage.getItem('alfaiz_seo') || '{}');
+      if (seoTitle) seoTitle.value = data.title || 'ALFAIZ | Web Architect - High Performance Web Systems';
+      if (seoDesc) seoDesc.value = data.description || 'High-performance digital engineering crafted without framework overhead. Sub-second latency, rock-solid architectural stability, and frictionless scalability.';
+      if (seoKw) seoKw.value = data.keywords || 'Web Architect, Vanilla JS, Performance Engineering, Core Web Vitals';
+
+      if (data.ogImage) {
+        uploadedOgImage = data.ogImage;
+        const img = document.getElementById('og-preview-img');
+        const wrap = document.getElementById('og-preview-wrap');
+        if (img) img.src = data.ogImage;
+        if (wrap) wrap.classList.add('active');
+      }
+
+      if (prevSeoTitle) prevSeoTitle.textContent = seoTitle.value;
+      if (prevSeoDesc) prevSeoDesc.textContent = seoDesc.value;
+    } catch (e) {}
+  }
 
   if (seoForm) {
     seoForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const data = {
-        title: seoTitleInput.value.trim(),
-        description: seoDescInput.value.trim(),
-        keywords: seoKeywordsInput.value.trim(),
-        updatedAt: new Date().toISOString()
+      const config = {
+        title: seoTitle.value.trim(),
+        description: seoDesc.value.trim(),
+        keywords: seoKw.value.trim(),
+        ogImage: uploadedOgImage || ''
       };
-      localStorage.setItem('alfaiz_seo', JSON.stringify(data));
-      showToast('SEO metadata configuration updated!');
+
+      localStorage.setItem('alfaiz_seo', JSON.stringify(config));
+      logActivity('SEO and OpenGraph metadata updated');
+      showToast('SEO configuration saved successfully!');
     });
   }
 
   // ==========================================================================
-  // 9. Initial Load Calls
+  // 15. Fiverr Gig Image Generator (1280x769 Canvas)
   // ==========================================================================
-  loadBrandingSettings();
-  loadHeroSettings();
-  renderProjectsTable();
+  function renderGigCanvas() {
+    const canvas = document.getElementById('gig-canvas');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    const w = 1280;
+    const h = 769;
+
+    const badge = document.getElementById('gig-badge-text')?.value || 'EXPERT WEB ARCHITECT';
+    const title = document.getElementById('gig-title-text')?.value || 'FUTURE-READY WEB SYSTEMS';
+    const subtitle = document.getElementById('gig-subtitle-text')?.value || 'ZERO FRAMEWORK BLOAT • SUB-SECOND SPEED';
+    const pill1 = document.getElementById('gig-pill1')?.value || '100% Vanilla JS & CSS3';
+    const pill2 = document.getElementById('gig-pill2')?.value || 'Lighthouse 95+ Guaranteed';
+
+    // 1. Solid White Base with subtle clean corporate gradients
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, 0, w, h);
+
+    // Subtle blue corner ambient glow
+    const ambientGrad = ctx.createRadialGradient(1000, 200, 50, 1000, 200, 600);
+    ambientGrad.addColorStop(0, 'rgba(15, 108, 189, 0.08)');
+    ambientGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    ctx.fillStyle = ambientGrad;
+    ctx.fillRect(0, 0, w, h);
+
+    // Subtle blue accent border
+    ctx.lineWidth = 14;
+    ctx.strokeStyle = '#0F6CBD';
+    ctx.strokeRect(7, 7, w - 14, h - 14);
+
+    // Hexagon Logo in corner
+    ctx.save();
+    ctx.translate(110, 130);
+    ctx.beginPath();
+    const hexRadius = 45;
+    for (let i = 0; i < 6; i++) {
+      const angle = (i * Math.PI) / 3;
+      const x = hexRadius * Math.cos(angle);
+      const y = hexRadius * Math.sin(angle);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.fillStyle = '#0F6CBD';
+    ctx.fill();
+
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '800 48px Space Grotesk, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('A', 0, 4);
+    ctx.restore();
+
+    // Brand Name next to hexagon
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#0F172A';
+    ctx.font = '800 36px Plus Jakarta Sans, sans-serif';
+    ctx.fillText('ALFAIZ', 180, 126);
+    ctx.fillStyle = '#0F6CBD';
+    ctx.font = '700 24px Plus Jakarta Sans, sans-serif';
+    ctx.fillText('WEB ARCHITECT', 180, 156);
+
+    // Badge Pill
+    ctx.save();
+    ctx.translate(110, 240);
+    ctx.fillStyle = '#EDF5FE';
+    ctx.strokeStyle = '#DBEAFE';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(0, 0, 360, 44, 22);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#0F6CBD';
+    ctx.font = '800 15px Plus Jakarta Sans, sans-serif';
+    ctx.fillText(`⚡ ${badge}`, 22, 28);
+    ctx.restore();
+
+    // Primary Title
+    ctx.fillStyle = '#0F172A';
+    ctx.font = '800 58px Plus Jakarta Sans, sans-serif';
+    ctx.fillText(title, 110, 360);
+
+    // Subtitle
+    ctx.fillStyle = '#0F6CBD';
+    ctx.font = '800 28px Space Grotesk, sans-serif';
+    ctx.fillText(subtitle, 110, 420);
+
+    // Feature Badges
+    const drawBadgePill = (text, x, y) => {
+      ctx.save();
+      ctx.fillStyle = '#FFFFFF';
+      ctx.strokeStyle = '#DBEAFE';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(x, y, 380, 56, 14);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#10B981';
+      ctx.font = '800 20px sans-serif';
+      ctx.fillText('✓', x + 20, y + 36);
+
+      ctx.fillStyle = '#0F172A';
+      ctx.font = '700 19px Plus Jakarta Sans, sans-serif';
+      ctx.fillText(text, x + 50, y + 35);
+      ctx.restore();
+    };
+
+    drawBadgePill(pill1, 110, 480);
+    drawBadgePill(pill2, 110, 555);
+
+    // Rating & Guarantee badge on bottom right
+    ctx.save();
+    ctx.fillStyle = '#F8FAFC';
+    ctx.strokeStyle = '#DBEAFE';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(840, 480, 340, 160, 16);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#F59E0B';
+    ctx.font = '800 24px sans-serif';
+    ctx.fillText('★ ★ ★ ★ ★', 870, 525);
+
+    ctx.fillStyle = '#0F172A';
+    ctx.font = '800 22px Plus Jakarta Sans, sans-serif';
+    ctx.fillText('100% 5-Star Delivery', 870, 565);
+
+    ctx.fillStyle = '#64748B';
+    ctx.font = '600 15px Plus Jakarta Sans, sans-serif';
+    ctx.fillText('Verified Escrow Guarantee', 870, 600);
+    ctx.restore();
+  }
+
+  const btnRedrawGig = document.getElementById('btn-redraw-gig');
+  if (btnRedrawGig) btnRedrawGig.addEventListener('click', renderGigCanvas);
+
+  const btnDownloadGig = document.getElementById('btn-download-gig');
+  if (btnDownloadGig) {
+    btnDownloadGig.addEventListener('click', () => {
+      const canvas = document.getElementById('gig-canvas');
+      if (!canvas) return;
+      const link = document.createElement('a');
+      link.download = 'fiverr-gig-alfaiz-1280x769.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      showToast('Gig thumbnail PNG downloaded!');
+    });
+  }
+
+  // ==========================================================================
+  // 16. Reset Sample Data Helper
+  // ==========================================================================
+  const btnSeedDefaults = document.getElementById('btn-seed-defaults');
+  if (btnSeedDefaults) {
+    btnSeedDefaults.addEventListener('click', () => {
+      if (confirm('Reset portfolio sample data to default 6 projects and settings?')) {
+        localStorage.setItem('alfaiz_portfolio_v2', JSON.stringify(DEFAULT_PROJECTS));
+        localStorage.setItem('alfaiz_experience', JSON.stringify(DEFAULT_EXPERIENCE));
+        localStorage.setItem('alfaiz_skills', JSON.stringify(DEFAULT_SKILLS));
+        localStorage.setItem('alfaiz_services', JSON.stringify(DEFAULT_SERVICES));
+        logActivity('Portfolio data restored to defaults');
+        showToast('Sample data reset successfully!');
+        loadProjectsData();
+        loadExperienceData();
+        loadSkillsData();
+        loadServicesData();
+      }
+    });
+  }
+
+  // ==========================================================================
+  // 17. Initialization Sequence
+  // ==========================================================================
+  bindHeroLivePreview();
+  bindAboutLivePreview();
+
+  loadBrandingData();
+  loadHeroData();
+  loadProjectsData();
+  loadExperienceData();
+  loadSkillsData();
+  loadServicesData();
+  loadAboutData();
+  loadContactData();
+  loadLinksData();
+  loadSeoData();
+
+  renderActivityFeed();
+  updateDashboardCards();
+  renderVisitorChart();
   renderGigCanvas();
-  loadLoaderSettings();
-  loadSeoSettings();
-
 });
-

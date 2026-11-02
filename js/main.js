@@ -225,9 +225,40 @@ function initPortfolioStorage() {
   }
 }
 
-// Helper: Synchronize SEO metadata & Favicon from localStorage ('alfaiz_seo', 'alfaiz_branding')
-function syncDynamicSeoAndBranding() {
+// ==========================================================================
+// Visitor Analytics & Telemetry Tracking (Shared LocalStorage Matrix)
+// ==========================================================================
+function trackVisitorSession() {
   try {
+    // 1. Total Page Views
+    let pageViews = parseInt(localStorage.getItem('alfaiz_pageviews') || '4290', 10);
+    pageViews++;
+    localStorage.setItem('alfaiz_pageviews', pageViews.toLocaleString());
+
+    // 2. Unique Session Visitors
+    if (!sessionStorage.getItem('alfaiz_session_counted')) {
+      sessionStorage.setItem('alfaiz_session_counted', 'true');
+      let visitors = parseInt(localStorage.getItem('alfaiz_visitors') || '1482', 10);
+      visitors++;
+      localStorage.setItem('alfaiz_visitors', visitors.toLocaleString());
+    }
+
+    // 3. 7-Day Canvas Chart Daily Data Tracking
+    let dailyStats = JSON.parse(localStorage.getItem('alfaiz_daily_stats') || 'null');
+    if (!Array.isArray(dailyStats) || dailyStats.length < 7) {
+      dailyStats = [142, 178, 220, 265, 240, 290, 345];
+    }
+    dailyStats[dailyStats.length - 1] += 1;
+    localStorage.setItem('alfaiz_daily_stats', JSON.stringify(dailyStats));
+  } catch (e) {
+    console.warn('Visitor tracking telemetry error:', e);
+  }
+}
+
+// Helper: Synchronize SEO metadata, Favicon, Branding & Dynamic Content from localStorage
+function syncDynamicSiteContent() {
+  try {
+    // 1. SEO Metadata
     const savedSeo = localStorage.getItem('alfaiz_seo');
     if (savedSeo) {
       const seo = JSON.parse(savedSeo);
@@ -254,18 +285,81 @@ function syncDynamicSeoAndBranding() {
       }
     }
 
+    // 2. Branding (Logo text, subtitle, favicon)
     const savedBranding = localStorage.getItem('alfaiz_branding');
     if (savedBranding) {
       const brand = JSON.parse(savedBranding);
-      if (brand.faviconUrl) {
+      if (brand.favicon || brand.faviconUrl) {
         const favIcon = document.getElementById('site-favicon');
-        if (favIcon) favIcon.setAttribute('href', brand.faviconUrl);
+        if (favIcon) favIcon.setAttribute('href', brand.favicon || brand.faviconUrl);
+      }
+      if (brand.logoText) {
+        document.querySelectorAll('.brand-name').forEach(el => el.textContent = brand.logoText);
+      }
+      if (brand.subTitle) {
+        document.querySelectorAll('.brand-title').forEach(el => el.textContent = brand.subTitle);
       }
     }
+
+    // 3. Hero Section (index.html)
+    const savedHero = localStorage.getItem('alfaiz_hero');
+    if (savedHero) {
+      const hero = JSON.parse(savedHero);
+      if (hero.badge) {
+        const badgeEl = document.querySelector('.hero-section .status-text');
+        if (badgeEl) badgeEl.textContent = hero.badge;
+      }
+      if (hero.line1 || hero.line2 || hero.line3) {
+        const titleEl = document.querySelector('.hero-title');
+        if (titleEl) {
+          titleEl.innerHTML = `${hero.line1 || 'Architecting'} <span class="gradient-text">${hero.line2 || 'Future-Ready'}</span> ${hero.line3 || 'Web Systems With Pure Speed'}`;
+        }
+      }
+      if (hero.desc) {
+        const descEl = document.querySelector('.hero-description');
+        if (descEl) descEl.textContent = hero.desc;
+      }
+      const ctaBtns = document.querySelectorAll('.hero-cta-group .btn');
+      if (ctaBtns.length >= 2) {
+        if (hero.btn1Text) ctaBtns[0].querySelector('span').textContent = hero.btn1Text;
+        if (hero.btn1Url) ctaBtns[0].setAttribute('href', hero.btn1Url);
+        if (hero.btn2Text) ctaBtns[1].querySelector('span').textContent = hero.btn2Text;
+        if (hero.btn2Url) ctaBtns[1].setAttribute('href', hero.btn2Url);
+      }
+    }
+
+    // 4. External Links Matrix (Fiverr, Socials)
+    const savedLinks = localStorage.getItem('alfaiz_links');
+    if (savedLinks) {
+      const links = JSON.parse(savedLinks);
+      if (links.fiverr) {
+        document.querySelectorAll('a[href*="fiverr.com"], .fiverr-link').forEach(a => {
+          a.setAttribute('href', links.fiverr);
+        });
+      }
+    }
+
+    // 5. Contact Channels (Email, SLA)
+    const savedContact = localStorage.getItem('alfaiz_contact');
+    if (savedContact) {
+      const contact = JSON.parse(savedContact);
+      if (contact.email) {
+        document.querySelectorAll('a[href^="mailto:"]').forEach(a => {
+          a.setAttribute('href', `mailto:${contact.email}`);
+          if (a.classList.contains('channel-link') || a.textContent.includes('@')) {
+            a.textContent = contact.email;
+          }
+        });
+      }
+    }
+
   } catch (e) {
-    console.warn('Error reading SEO/Branding from localStorage:', e);
+    console.warn('Error synchronizing dynamic content from localStorage:', e);
   }
 }
+
+// Track session immediately
+trackVisitorSession();
 
 // Helper: Retrieve projects from localStorage or default
 function getPortfolioProjects() {
@@ -802,9 +896,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ------------------------------------------------------------------------
-  // 9. Sync Dynamic SEO & Favicon from localStorage ('alfaiz_seo', 'alfaiz_branding')
+  // 9. Sync Dynamic Content, Branding & SEO from localStorage
   // ------------------------------------------------------------------------
-  syncDynamicSeoAndBranding();
+  syncDynamicSiteContent();
 
   // ------------------------------------------------------------------------
   // 10. Magnetic Buttons Interaction (mousemove translate ~2px using JS)
