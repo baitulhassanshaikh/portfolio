@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Featured Projects & Systems Deployments - ALFAIZ Web Architect. High-performance digital products engineered for sub-second speeds, zero framework bloat, and enterprise stability.">
+  <meta name="theme-color" content="#0F6CBD">
+  <title>Projects &amp; Deployments | ALFAIZ Web Architect</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans & Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" id="site-favicon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><polygon points=%2250,5 95,28 95,72 50,95 5,72 5,28%22 fill=%22%230F6CBD%22/><text x=%2250%22 y=%2264%22 font-family=%22sans-serif%22 font-weight=%22800%22 font-size=%2246%22 fill=%22white%22 text-anchor=%22middle%22>A</text></svg>">
+</head>
+<body>
+
+  <!-- Ambient Light Watercolor Splashes (Solid Pure White Base) -->
+  <div class="watercolor-bg" aria-hidden="true">
+    <div class="splash splash-top-right"></div>
+    <div class="splash splash-hero-center"></div>
+    <div class="splash splash-mid-left"></div>
+    <div class="splash splash-bottom-right"></div>
+  </div>
+
+  <!-- Header / Navigation Bar (White Rounded 50px Pill) -->
+  <header class="header-container" id="site-header">
+    <nav class="nav-pill" aria-label="Main Navigation">
+      <!-- Left: Brand Identity -->
+      <a href="index.html" class="nav-brand" aria-label="ALFAIZ Web Architect Home">
+        <span class="brand-name">ALFAIZ</span>
+        <span class="brand-divider">|</span>
+        <span class="brand-title">Web Architect</span>
+      </a>
+
+      <!-- Center: Navigation Links -->
+      <ul class="nav-links" id="nav-links-menu">
+        <li><a href="index.html" class="nav-link">HOME</a></li>
+        <li><a href="experience.html" class="nav-link">EXPERIENCE</a></li>
+        <li><a href="projects.html" class="nav-link active">PROJECTS</a></li>
+        <li><a href="about.html" class="nav-link">ABOUT</a></li>
+        <li><a href="services.html" class="nav-link">SERVICES</a></li>
+        <li><a href="index.html#contact" class="nav-link">CONTACT</a></li>
+      </ul>
+
+      <!-- Right: Call to Action -->
+      <div class="nav-cta-wrapper">
+        <a href="index.html#contact" class="btn btn-primary btn-sm nav-btn">Get in Touch</a>
+      </div>
+
+      <!-- Mobile Menu Toggle Button -->
+      <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </nav>
+
+    <!-- Mobile Dropdown Navigation -->
+    <div class="mobile-menu" id="mobile-menu">
+      <ul class="mobile-nav-links">
+        <li><a href="index.html" class="mobile-nav-link">HOME</a></li>
+        <li><a href="experience.html" class="mobile-nav-link">EXPERIENCE</a></li>
+        <li><a href="projects.html" class="mobile-nav-link">PROJECTS</a></li>
+        <li><a href="about.html" class="mobile-nav-link">ABOUT</a></li>
+        <li><a href="services.html" class="mobile-nav-link">SERVICES</a></li>
+        <li><a href="index.html#contact" class="mobile-nav-link">CONTACT</a></li>
+      </ul>
+      <div class="mobile-menu-cta">
+        <a href="index.html#contact" class="btn btn-primary btn-full">Get in Touch</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Page Hero Banner -->
+    <section class="page-hero">
+      <div class="container">
+        <div class="page-header-content">
+          <div class="page-tag">SELECTED WORKS &amp; SYSTEMS</div>
+          <h1 class="page-title">Engineered Systems &amp; Featured Deployments</h1>
+          <p class="page-subtitle">
+            Enterprise platforms and high-velocity digital architectures crafted with pure vanilla standards, zero framework dependencies, and sub-second execution speeds.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section (3-Column Grid + White Cards + 16:9 Img + Hover Blue Glow) -->
+    <section class="projects-page-section">
+      <div class="container">
+        
+        <!-- Filter Controls -->
+        <div class="projects-filter-bar">
+          <button class="projects-filter-btn active" data-filter="all">All Systems</button>
+          <button class="projects-filter-btn" data-filter="fintech">Fintech Core</button>
+          <button class="projects-filter-btn" data-filter="ecommerce">E-Commerce</button>
+          <button class="projects-filter-btn" data-filter="cloud">Cloud &amp; Edge</button>
+          <button class="projects-filter-btn" data-filter="design">Design Systems</button>
+        </div>
+
+        <!-- 3-Column Grid Container (Populated dynamically via localStorage 'alfaiz_portfolio_v2' or fallback) -->
+        <div class="projects-3col-grid" id="projects-dynamic-grid">
+          
+          <!-- Project Card 1 -->
+          <a href="project-detail.html?id=1" class="project-grid-card" aria-label="View project details for Nexus Global Financial Engine">
+            <div class="project-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&h=450&q=80" alt="Nexus Global Financial Engine Preview" class="project-img" loading="lazy">
+              <div class="project-card-badge">99/100 SPEED</div>
+            </div>
+            <div class="project-card-body">
+              <div class="project-card-cat">Fintech Core</div>
+              <h3 class="project-card-title">Nexus Global Financial Engine</h3>
+              <p class="project-card-desc">
+                An ultra-low latency liquidity engine and currency terminal handling real-time WebSocket feeds with 60FPS fluid canvas visualizations and zero layout thrashing.
+              </p>
+              <div class="project-tags-list">
+                <span class="project-tag">Pure Vanilla JS</span>
+                <span class="project-tag">WebSocket</span>
+                <span class="project-tag">Canvas 2D</span>
+              </div>
+              <div class="project-card-action">
+                <span>View Architecture Specs</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </div>
+            </div>
+          </a>
+
+          <!-- Project Card 2 -->
+          <a href="project-detail.html?id=2" class="project-grid-card" aria-label="View project details for Veloce Headless Commerce Core">
+            <div class="project-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=800&h=450&q=80" alt="Veloce Headless Commerce Core Preview" class="project-img" loading="lazy">
+              <div class="project-card-badge">100/100 SPEED</div>
+            </div>
+            <div class="project-card-body">
+              <div class="project-card-cat">E-Commerce Architecture</div>
+              <h3 class="project-card-title">Veloce Headless Commerce Core</h3>
+              <p class="project-card-desc">
+                Custom-built shopping engine designed for high-concurrency flash sales. Replaced a sluggish 3.2MB legacy storefront with a modular 35KB vanilla engine.
+              </p>
+              <div class="project-tags-list">
+                <span class="project-tag">HTML5 Template</span>
+                <span class="project-tag">IndexedDB</span>
+                <span class="project-tag">Vanilla Router</span>
+              </div>
+              <div class="project-card-action">
+                <span>View Architecture Specs</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </div>
+            </div>
+          </a>
+
+          <!-- Project Card 3 -->
+          <a href="project-detail.html?id=3" class="project-grid-card" aria-label="View project details for Aether Multi-Cloud Observability">
+            <div class="project-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&h=450&q=80" alt="Aether Multi-Cloud Observability Preview" class="project-img" loading="lazy">
+              <div class="project-card-badge">ENTERPRISE SCALE</div>
+            </div>
+            <div class="project-card-body">
+              <div class="project-card-cat">Cloud Systems</div>
+              <h3 class="project-card-title">Aether Multi-Cloud Observability</h3>
+              <p class="project-card-desc">
+                Real-time distributed telemetry dashboard for multi-region clusters. Features native SVG charting, asynchronous event streaming, and custom reactive micro-stores.
+              </p>
+              <div class="project-tags-list">
+                <span class="project-tag">Native SVG</span>
+                <span class="project-tag">Server-Sent Events</span>
+                <span class="project-tag">Micro-Store</span>
+              </div>
+              <div class="project-card-action">
+                <span>View Architecture Specs</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </div>
+            </div>
+          </a>
+
+          <!-- Project Card 4 -->
+          <a href="project-detail.html?id=4" class="project-grid-card" aria-label="View project details for Kinetics Micro-UI Component Standard">
+            <div class="project-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&h=450&q=80" alt="Kinetics Micro-UI Preview" class="project-img" loading="lazy">
+              <div class="project-card-badge">0 DEPENDENCIES</div>
+            </div>
+            <div class="project-card-body">
+              <div class="project-card-cat">Design System</div>
+              <h3 class="project-card-title">Kinetics Micro-UI Component Standard</h3>
+              <p class="project-card-desc">
+                A bespoke, zero-dependency design system specification engineered for enterprise white-label portals with unified tokenization and instant theme switching.
+              </p>
+              <div class="project-tags-list">
+                <span class="project-tag">CSS Custom Props</span>
+                <span class="project-tag">Custom Elements</span>
+                <span class="project-tag">WCAG AA</span>
+              </div>
+              <div class="project-card-action">
+                <span>View Architecture Specs</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </div>
+            </div>
+          </a>
+
+          <!-- Project Card 5 -->
+          <a href="project-detail.html?id=5" class="project-grid-card" aria-label="View project details for Pulse Real-Time Edge Analytics">
+            <div class="project-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&h=450&q=80" alt="Pulse Edge Analytics Preview" class="project-img" loading="lazy">
+              <div class="project-card-badge">SUB-SECOND</div>
+            </div>
+            <div class="project-card-body">
+              <div class="project-card-cat">Edge Systems</div>
+              <h3 class="project-card-title">Pulse Real-Time Edge Analytics</h3>
+              <p class="project-card-desc">
+                Global edge CDN request throughput monitoring engine. Features lightweight memory ring buffers and hardware-accelerated canvas heatmaps.
+              </p>
+              <div class="project-tags-list">
+                <span class="project-tag">Edge Computing</span>
+                <span class="project-tag">Canvas API</span>
+                <span class="project-tag">Ring Buffer</span>
+              </div>
+              <div class="project-card-action">
+                <span>View Architecture Specs</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </div>
+            </div>
+          </a>
+
+          <!-- Project Card 6 -->
+          <a href="project-detail.html?id=6" class="project-grid-card" aria-label="View project details for Cypher Zero-Trust Client Portal">
+            <div class="project-img-wrapper">
+              <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&h=450&q=80" alt="Cypher Zero-Trust Preview" class="project-img" loading="lazy">
+              <div class="project-card-badge">ENTERPRISE</div>
+            </div>
+            <div class="project-card-body">
+              <div class="project-card-cat">Enterprise Security</div>
+              <h3 class="project-card-title">Cypher Zero-Trust Client Portal</h3>
+              <p class="project-card-desc">
+                High-security client portal for sensitive document exchange featuring native in-browser WebCrypto API signing and zero third-party telemetry.
+              </p>
+              <div class="project-tags-list">
+                <span class="project-tag">WebCrypto API</span>
+                <span class="project-tag">SHA-256</span>
+                <span class="project-tag">Zero-Trust</span>
+              </div>
+              <div class="project-card-action">
+                <span>View Architecture Specs</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </div>
+            </div>
+          </a>
+
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-left">
+        <a href="index.html" class="footer-brand">
+          <span class="brand-name">ALFAIZ</span>
+          <span class="brand-divider">|</span>
+          <span class="brand-title">Web Architect</span>
+        </a>
+        <p class="footer-tagline">Architecting Future-Ready Web Systems With Pure Speed.</p>
+      </div>
+
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="experience.html">Experience</a>
+        <a href="projects.html">Projects</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+
+      <div class="footer-right">
+        <p class="copyright">&copy; 2026 ALFAIZ. All rights reserved. Zero-framework pure engineering.</p>
+        <a href="#site-header" class="back-to-top" aria-label="Back to top">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Vanilla JavaScript -->
+  <script src="js/main.js"></script>
+</body>
+</html>
+

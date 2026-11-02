@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ALFAIZ Studio Control Console - High Performance Web Architecture Admin Matrix">
+  <meta name="theme-color" content="#071120">
+  <title>ALFAIZ // CONSOLE GATEWAY | Administrative Control Console</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans & Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  
+  <!-- Admin CSS -->
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="icon" id="site-favicon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><polygon points=%2250,5 95,28 95,72 50,95 5,72 5,28%22 fill=%22%230F6CBD%22/><text x=%2250%22 y=%2264%22 font-family=%22sans-serif%22 font-weight=%22800%22 font-size=%2246%22 fill=%22white%22 text-anchor=%22middle%22>A</text></svg>">
+</head>
+<body>
+
+  <div class="admin-layout">
+    
+    <!-- Sidebar -->
+    <aside class="admin-sidebar" role="navigation" aria-label="Admin Navigation">
+      <div class="sidebar-header">
+        <div class="sidebar-logo-hex" aria-hidden="true">
+          <span>A</span>
+        </div>
+        <div class="sidebar-brand-text">
+          <span class="sidebar-brand-title">ALFAIZ STUDIO</span>
+          <span class="sidebar-brand-badge">ARCHITECT CONSOLE</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <!-- 1. Branding -->
+        <a href="#branding" class="sidebar-link active" data-tab="branding">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+          </svg>
+          <span>Branding</span>
+        </a>
+
+        <!-- 2. Hero -->
+        <a href="#hero" class="sidebar-link" data-tab="hero">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+          <span>Hero</span>
+        </a>
+
+        <!-- 3. Projects -->
+        <a href="#projects" class="sidebar-link" data-tab="projects">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+            <polyline points="2 17 12 22 22 17"></polyline>
+            <polyline points="2 12 12 17 22 12"></polyline>
+          </svg>
+          <span>Projects</span>
+        </a>
+
+        <!-- 4. Experience -->
+        <a href="#experience" class="sidebar-link" data-tab="experience">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span>Experience</span>
+        </a>
+
+        <!-- 5. Skills -->
+        <a href="#skills" class="sidebar-link" data-tab="skills">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+          <span>Skills</span>
+        </a>
+
+        <!-- 6. Services -->
+        <a href="#services" class="sidebar-link" data-tab="services">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+          </svg>
+          <span>Services</span>
+        </a>
+
+        <!-- 7. Gig Generator -->
+        <a href="#gig" class="sidebar-link" data-tab="gig">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+          <span>Gig</span>
+        </a>
+
+        <!-- 8. Loader -->
+        <a href="#loader" class="sidebar-link" data-tab="loader">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="2" x2="12" y2="6"></line>
+            <line x1="12" y1="18" x2="12" y2="22"></line>
+            <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+            <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+            <line x1="2" y1="12" x2="6" y2="12"></line>
+            <line x1="18" y1="12" x2="22" y2="12"></line>
+            <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+            <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+          </svg>
+          <span>Loader</span>
+        </a>
+
+        <!-- 9. SEO -->
+        <a href="#seo" class="sidebar-link" data-tab="seo">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <span>SEO</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="../index.html" target="_blank" class="sidebar-footer-btn btn-sidebar-view">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+          <span>Open Live Portfolio</span>
+        </a>
+
+        <button type="button" class="sidebar-footer-btn btn-sidebar-logout" id="sidebar-logout-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>Sign Out of Matrix</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-main">
+      
+      <!-- Top Sticky Bar -->
+      <header class="admin-topbar">
+        <div class="admin-topbar-title">
+          <button type="button" id="admin-sidebar-toggle" style="background:none; border:none; color:#F8FAFC; cursor:pointer; display:none;" aria-label="Toggle menu">☰</button>
+          <span id="topbar-tab-title">Branding</span>
+        </div>
+
+        <div class="admin-topbar-status">
+          <div class="status-indicator-live">
+            <span class="status-dot-pulse"></span>
+            <span>Local Matrix Synced</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="admin-content-pane">
+
+        <!-- ================================================================
+             TAB 1: BRANDING (localStorage 'alfaiz_branding')
+             ================================================================ -->
+        <section class="admin-tab-pane" id="tab-branding" style="display: block;">
+          <div class="admin-panel-card">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Studio Identity &amp; Global Tokens</h2>
+                <p class="panel-desc">Configure brand labels, favicon, and core system palette saved in local storage.</p>
+              </div>
+            </div>
+
+            <form id="branding-form">
+              <div class="admin-grid-2col" style="margin-bottom: 20px;">
+                <div class="admin-field-group">
+                  <label for="brand-logo-text" class="admin-field-label">Header Logo Text</label>
+                  <input type="text" id="brand-logo-text" class="admin-input" placeholder="ALFAIZ | Web Architect" required>
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="brand-favicon-url" class="admin-field-label">Favicon Path / URL</label>
+                  <input type="text" id="brand-favicon-url" class="admin-input" placeholder="favicon.ico">
+                </div>
+              </div>
+
+              <div class="admin-grid-3col" style="margin-bottom: 26px;">
+                <div class="admin-field-group">
+                  <label for="brand-color-primary" class="admin-field-label">Primary Blue Token</label>
+                  <input type="color" id="brand-color-primary" class="admin-input" value="#0F6CBD" style="height: 46px; padding: 4px;">
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="brand-color-dark" class="admin-field-label">Dark Blue Token</label>
+                  <input type="color" id="brand-color-dark" class="admin-input" value="#0A3D6B" style="height: 46px; padding: 4px;">
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="brand-color-accent" class="admin-field-label">Cyan Accent Token</label>
+                  <input type="color" id="brand-color-accent" class="admin-input" value="#38BDF8" style="height: 46px; padding: 4px;">
+                </div>
+              </div>
+
+              <button type="submit" class="admin-btn admin-btn-primary">Save Branding Settings</button>
+            </form>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             TAB 2: HERO (localStorage 'alfaiz_hero')
+             ================================================================ -->
+        <section class="admin-tab-pane" id="tab-hero" style="display: none;">
+          <div class="admin-panel-card">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Hero Section Messaging &amp; CTAs</h2>
+                <p class="panel-desc">Update availability badge, H1 headlines, gray description, and primary button labels.</p>
+              </div>
+            </div>
+
+            <form id="hero-form">
+              <div class="admin-field-group" style="margin-bottom: 20px;">
+                <label for="hero-badge-input" class="admin-field-label">Availability Badge Text</label>
+                <input type="text" id="hero-badge-input" class="admin-input" placeholder="Available for freelance projects" required>
+              </div>
+
+              <div class="admin-grid-3col" style="margin-bottom: 20px;">
+                <div class="admin-field-group">
+                  <label for="hero-h1-part1" class="admin-field-label">H1 Prefix</label>
+                  <input type="text" id="hero-h1-part1" class="admin-input" placeholder="Architecting" required>
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="hero-h1-gradient" class="admin-field-label">H1 Gradient Word</label>
+                  <input type="text" id="hero-h1-gradient" class="admin-input" placeholder="Future-Ready" required>
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="hero-h1-part3" class="admin-field-label">H1 Suffix</label>
+                  <input type="text" id="hero-h1-part3" class="admin-input" placeholder="Web Systems With Pure Speed" required>
+                </div>
+              </div>
+
+              <div class="admin-field-group" style="margin-bottom: 20px;">
+                <label for="hero-desc-input" class="admin-field-label">Corporate Description Copy</label>
+                <textarea id="hero-desc-input" class="admin-input admin-textarea" rows="4" required></textarea>
+              </div>
+
+              <div class="admin-grid-2col" style="margin-bottom: 26px;">
+                <div class="admin-field-group">
+                  <label for="hero-btn1-input" class="admin-field-label">Primary Button Text (Blue)</label>
+                  <input type="text" id="hero-btn1-input" class="admin-input" placeholder="Explore Selected Works" required>
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="hero-btn2-input" class="admin-field-label">Secondary Button Text (Fiverr)</label>
+                  <input type="text" id="hero-btn2-input" class="admin-input" placeholder="Order Fiverr Gig" required>
+                </div>
+              </div>
+
+              <button type="submit" class="admin-btn admin-btn-primary">Save Hero Matrix</button>
+            </form>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             TAB 3: PROJECTS CRUD (localStorage 'alfaiz_portfolio_v2')
+             ================================================================ -->
+        <section class="admin-tab-pane" id="tab-projects" style="display: none;">
+          <!-- Add / Edit Project Form Card -->
+          <div class="admin-panel-card">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Add / Edit System Deployment</h2>
+                <p class="panel-desc">Manage the master project list loaded by projects.html and project-detail.html.</p>
+              </div>
+              <button type="button" class="admin-btn admin-btn-secondary" id="reset-projects-btn">Reset Defaults</button>
+            </div>
+
+            <form id="project-form">
+              <input type="hidden" id="project-id-field">
+
+              <div class="admin-grid-3col" style="margin-bottom: 20px;">
+                <div class="admin-field-group">
+                  <label for="project-title-input" class="admin-field-label">System Title *</label>
+                  <input type="text" id="project-title-input" class="admin-input" placeholder="e.g. Nexus Global Financial Engine" required>
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="project-cat-input" class="admin-field-label">Category *</label>
+                  <input type="text" id="project-cat-input" class="admin-input" placeholder="e.g. Fintech Core" required>
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="project-badge-input" class="admin-field-label">Speed / Status Badge</label>
+                  <input type="text" id="project-badge-input" class="admin-input" placeholder="e.g. 99/100 SPEED">
+                </div>
+              </div>
+
+              <div class="admin-grid-2col" style="margin-bottom: 20px;">
+                <div class="admin-field-group">
+                  <label for="project-img-input" class="admin-field-label">16:9 Cover Image URL *</label>
+                  <input type="url" id="project-img-input" class="admin-input" placeholder="https://images.unsplash.com/..." required>
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="project-video-input" class="admin-field-label">Video Embed URL (YouTube/Demo)</label>
+                  <input type="url" id="project-video-input" class="admin-input" placeholder="https://www.youtube-nocookie.com/embed/...">
+                </div>
+              </div>
+
+              <div class="admin-field-group" style="margin-bottom: 20px;">
+                <label for="project-desc-input" class="admin-field-label">Architecture Summary *</label>
+                <textarea id="project-desc-input" class="admin-input admin-textarea" rows="3" placeholder="Describe the engineering architecture, latency reductions, and zero-framework implementation..." required></textarea>
+              </div>
+
+              <div class="admin-field-group" style="margin-bottom: 26px;">
+                <label for="project-tags-input" class="admin-field-label">Technology Tags (comma-separated)</label>
+                <input type="text" id="project-tags-input" class="admin-input" placeholder="Pure Vanilla JS, WebSocket, Canvas 2D, Binary Buffers">
+              </div>
+
+              <div style="display: flex; gap: 12px;">
+                <button type="submit" class="admin-btn admin-btn-primary" id="project-submit-btn">Add System to Portfolio</button>
+                <button type="button" class="admin-btn admin-btn-secondary" id="project-cancel-btn" style="display: none;">Cancel</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Existing Projects Table Card -->
+          <div class="admin-panel-card">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Active Systems in Database</h2>
+                <p class="panel-desc">All projects synced in localStorage key 'alfaiz_portfolio_v2'.</p>
+              </div>
+            </div>
+
+            <div class="projects-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Preview</th>
+                    <th>System Name</th>
+                    <th>Category</th>
+                    <th>Tags</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="projects-table-body">
+                  <!-- Populated dynamically by js/admin.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             TAB 4: EXPERIENCE
+             ================================================================ -->
+        <section class="admin-tab-pane" id="tab-experience" style="display: none;">
+          <div class="admin-panel-card">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Vertical Timeline Milestones</h2>
+                <p class="panel-desc">Configure the career track record displayed on experience.html.</p>
+              </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <div style="background: rgba(2,6,23,0.5); padding: 20px; border-radius: 12px; border: 1px solid var(--admin-border);">
+                <span class="table-badge" style="margin-bottom: 8px; display: inline-block;">2023 - PRESENT</span>
+                <h3 style="font-size: 1.15rem; color: #F8FAFC; margin-bottom: 4px;">Principal Web Architect</h3>
+                <div style="color: var(--admin-cyan); font-size: 0.88rem; margin-bottom: 10px;">Enterprise Distributed Systems</div>
+                <p style="color: var(--admin-text-muted); font-size: 0.9rem;">Leading frontend architectural strategy for high-scale enterprise platforms. Replaced bloated framework bundles with vanilla micro-frontends.</p>
+              </div>
+
+              <div style="background: rgba(2,6,23,0.5); padding: 20px; border-radius: 12px; border: 1px solid var(--admin-border);">
+                <span class="table-badge" style="margin-bottom: 8px; display: inline-block;">2021 - 2023</span>
+                <h3 style="font-size: 1.15rem; color: #F8FAFC; margin-bottom: 4px;">Senior Web Performance Engineer</h3>
+                <div style="color: var(--admin-cyan); font-size: 0.88rem; margin-bottom: 10px;">Global Institutional Liquidity Platform</div>
+                <p style="color: var(--admin-text-muted); font-size: 0.9rem;">Spearheaded low-latency UI engineering for institutional algorithmic trading desks. Eliminated UI thread blocking and GC pauses.</p>
+              </div>
+
+              <div style="background: rgba(2,6,23,0.5); padding: 20px; border-radius: 12px; border: 1px solid var(--admin-border);">
+                <span class="table-badge" style="margin-bottom: 8px; display: inline-block;">2019 - 2021</span>
+                <h3 style="font-size: 1.15rem; color: #F8FAFC; margin-bottom: 4px;">Lead Frontend Systems Architect</h3>
+                <div style="color: var(--admin-cyan); font-size: 0.88rem; margin-bottom: 10px;">Omnichannel Digital Engineering</div>
+                <p style="color: var(--admin-text-muted); font-size: 0.9rem;">Standardized enterprise design systems, component specifications, and client-side caching strategies serving over 15 million monthly active users.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             TAB 5: SKILLS
+             ================================================================ -->
+        <section class="admin-tab-pane" id="tab-skills" style="display: none;">
+          <div class="admin-panel-card">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Core Architectural Competencies</h2>
+                <p class="panel-desc">Master engineering capabilities, benchmarks, and protocols.</p>
+              </div>
+            </div>
+
+            <div class="admin-grid-3col">
+              <div style="background: rgba(2,6,23,0.6); padding: 20px; border-radius: 12px; border: 1px solid var(--admin-border);">
+                <h3 style="color: #38BDF8; font-size: 1rem; margin-bottom: 10px;">Frontend Standards</h3>
+                <ul style="color: var(--admin-text-muted); font-size: 0.88rem; list-style: inside disc; display: flex; flex-direction: column; gap: 6px;">
+                  <li>Native HTML5 Semantics</li>
+                  <li>CSS Grid &amp; Flexbox Layouts</li>
+                  <li>Pure Vanilla ES6+ Modules</li>
+                  <li>Web Components &amp; Shadow DOM</li>
+                </ul>
+              </div>
+
+              <div style="background: rgba(2,6,23,0.6); padding: 20px; border-radius: 12px; border: 1px solid var(--admin-border);">
+                <h3 style="color: #38BDF8; font-size: 1rem; margin-bottom: 10px;">Performance &amp; Profiling</h3>
+                <ul style="color: var(--admin-text-muted); font-size: 0.88rem; list-style: inside disc; display: flex; flex-direction: column; gap: 6px;">
+                  <li>Core Web Vitals 99+ Certification</li>
+                  <li>Memory Leak &amp; Heap Trace Audit</li>
+                  <li>Canvas 2D Hardware Acceleration</li>
+                  <li>Zero Layout Thrashing Enforcement</li>
+                </ul>
+              </div>
+
+              <div style="background: rgba(2,6,23,0.6); padding: 20px; border-radius: 12px; border: 1px solid var(--admin-border);">
+                <h3 style="color: #38BDF8; font-size: 1rem; margin-bottom: 10px;">Real-Time &amp; Security</h3>
+                <ul style="color: var(--admin-text-muted); font-size: 0.88rem; list-style: inside disc; display: flex; flex-direction: column; gap: 6px;">
+                  <li>Binary WebSocket ArrayBuffers</li>
+                  <li>Server-Sent Events (SSE)</li>
+                  <li>WebCrypto SubtleCrypto Signing</li>
+                  <li>CSP Level 3 Strict Sandboxing</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             TAB 6: SERVICES
+             ================================================================ -->
+        <section class="admin-tab-pane" id="tab-services" style="display: none;">
+          <div class="admin-panel-card">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Active Service Offerings</h2>
+                <p class="panel-desc">All 6 offerings mirrored from services.html.</p>
+              </div>
+            </div>
+
+            <div class="admin-grid-3col">
+              <div style="background: rgba(2,6,23,0.5); padding: 20px; border-radius: 12px; border: 1px solid var(--admin-border);">
+                <h3 style="font-size: 1.05rem; color:#F8FAFC; margin-bottom: 6px;">01. Enterprise Architecture</h3>
+                <p style="color: var(--admin-text-muted); font-size: 0.84rem;">Frontend blueprinting, decoupling monoliths, tokenized design systems.</p>
+              </div>
+
+              <div style="background: rgba(2,6,23,0.5); padding: 20px; border-radius: 12px; border: 1px solid var(--admin-border);">
+                <h3 style="font-size: 1.05rem; color:#F8FAFC; margin-bottom: 6px;">02. Vanilla JS Engineering</h3>
+                <p style="color: var(--admin-text-muted); font-size: 0.84rem;">Custom web applications and 3D glass interfaces with 0 dependencies.</p>
+              </div>
+
+              <div style="background: rgba(2,6,23,0.5); padding: 20px; border-radius: 12px; border: 1px solid var(--admin-border);">
+                <h3 style="font-size: 1.05rem; color:#F8FAFC; margin-bottom: 6px;">03. Performance Auditing</h3>
+                <p style="color: var(--admin-text-muted); font-size: 0.84rem;">Deep memory profiling and guaranteed 95+ Core Web Vitals.</p>
+              </div>
+
+              <div style="background: rgba(2,6,23,0.5); padding: 20px; border-radius: 12px; border: 1px solid var(--admin-border);">
+                <h3 style="font-size: 1.05rem; color:#F8FAFC; margin-bottom: 6px;">04. Headless Modernization</h3>
+                <p style="color: var(--admin-text-muted); font-size: 0.84rem;">Decoupled frontend transitions with offline IndexedDB caching.</p>
+              </div>
+
+              <div style="background: rgba(2,6,23,0.5); padding: 20px; border-radius: 12px; border: 1px solid var(--admin-border);">
+                <h3 style="font-size: 1.05rem; color:#F8FAFC; margin-bottom: 6px;">05. Real-Time Telemetry</h3>
+                <p style="color: var(--admin-text-muted); font-size: 0.84rem;">Binary WebSocket dashboards with 60FPS fluid canvas graphics.</p>
+              </div>
+
+              <div style="background: rgba(2,6,23,0.5); padding: 20px; border-radius: 12px; border: 1px solid var(--admin-border);">
+                <h3 style="font-size: 1.05rem; color:#F8FAFC; margin-bottom: 6px;">06. Fiverr Fast-Track</h3>
+                <p style="color: var(--admin-text-muted); font-size: 0.84rem;">Escrow-protected custom delivery in 24 to 72 business hours.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             TAB 7: GIG GENERATOR (Canvas 1280x769)
+             ================================================================ -->
+        <section class="admin-tab-pane" id="tab-gig" style="display: none;">
+          <div class="admin-panel-card">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Fiverr Gig Image Generator (1280 x 769 px)</h2>
+                <p class="panel-desc">Render and export verified high-resolution Fiverr gig cover images using the HTML5 Canvas API.</p>
+              </div>
+              <button type="button" class="admin-btn admin-btn-primary" id="download-gig-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Download Gig Image (.png)</span>
+              </button>
+            </div>
+
+            <div class="gig-generator-layout">
+              <!-- Controls Column -->
+              <div style="display: flex; flex-direction: column; gap: 16px;">
+                <div class="admin-field-group">
+                  <label for="gig-title-input" class="admin-field-label">Gig Headline</label>
+                  <input type="text" id="gig-title-input" class="admin-input" value="ARCHITECTING FUTURE-READY WEB SYSTEMS">
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="gig-subtitle-input" class="admin-field-label">Subtitle / Promise</label>
+                  <input type="text" id="gig-subtitle-input" class="admin-input" value="Pure Vanilla Performance • Sub-Second 0.3s Latency • Zero Framework Bloat">
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="gig-badge-input" class="admin-field-label">Top Trust Badge</label>
+                  <input type="text" id="gig-badge-input" class="admin-input" value="VERIFIED PRO ARCHITECT • TOP RATED">
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="gig-bullet-1" class="admin-field-label">Feature Bullet 1</label>
+                  <input type="text" id="gig-bullet-1" class="admin-input" value="✔ 100/100 Google Core Web Vitals Guaranteed">
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="gig-bullet-2" class="admin-field-label">Feature Bullet 2</label>
+                  <input type="text" id="gig-bullet-2" class="admin-input" value="✔ Sub-Millisecond WebSocket &amp; 3D Glass UI">
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="gig-bullet-3" class="admin-field-label">Feature Bullet 3</label>
+                  <input type="text" id="gig-bullet-3" class="admin-input" value="✔ 0 KB Framework Dependencies • Instant Render">
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="gig-theme-select" class="admin-field-label">Color Theme Profile</label>
+                  <select id="gig-theme-select" class="admin-input admin-select">
+                    <option value="navy">Navy Blue Enterprise (#0A1931)</option>
+                    <option value="cyan">Cyber Cyan Dark (#020B18)</option>
+                    <option value="solid">Solid Minimalist Dark (#0B192C)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Live Canvas Preview Box -->
+              <div class="canvas-preview-box">
+                <div class="canvas-info-strip">
+                  <span>CANVAS PREVIEW • RATIO 1280:769 (FIVERR OPTIMIZED)</span>
+                  <span style="color: #10B981;">60 FPS RENDER</span>
+                </div>
+                <!-- 1280 x 769 native resolution canvas -->
+                <canvas id="gig-canvas" width="1280" height="769" class="gig-canvas-el"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             TAB 8: LOADER SETTINGS (localStorage 'alfaiz_loader_settings')
+             ================================================================ -->
+        <section class="admin-tab-pane" id="tab-loader" style="display: none;">
+          <div class="admin-panel-card">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Global Preloader Configuration</h2>
+                <p class="panel-desc">Customize loader animation type, timing speed, and accent colors for index.html.</p>
+              </div>
+              <button type="button" class="admin-btn admin-btn-secondary" id="test-loader-btn">Test Preloader Settings</button>
+            </div>
+
+            <form id="loader-settings-form">
+              <div class="admin-grid-3col" style="margin-bottom: 24px;">
+                <div class="admin-field-group">
+                  <label for="loader-type-select" class="admin-field-label">Animation Type</label>
+                  <select id="loader-type-select" class="admin-input admin-select">
+                    <option value="circle">Circular Progress + Hexagon Logo</option>
+                    <option value="progress">Linear Horizon Bar</option>
+                    <option value="dots">Pulsing Multi-Dots</option>
+                  </select>
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="loader-speed-select" class="admin-field-label">Timing Velocity</label>
+                  <select id="loader-speed-select" class="admin-input admin-select">
+                    <option value="fast">Fast (0.8s Total)</option>
+                    <option value="normal" selected>Normal Corporate (1.4s Total)</option>
+                    <option value="deliberate">Deliberate Enterprise (2.2s Total)</option>
+                  </select>
+                </div>
+
+                <div class="admin-field-group">
+                  <label for="loader-color-input" class="admin-field-label">Indicator Color</label>
+                  <input type="color" id="loader-color-input" class="admin-input" value="#0F6CBD" style="height: 46px; padding: 4px;">
+                </div>
+              </div>
+
+              <div style="background: rgba(2,6,23,0.5); padding: 20px; border-radius: 12px; border: 1px solid var(--admin-border); margin-bottom: 24px;">
+                <h3 style="color: #38BDF8; font-size: 0.95rem; margin-bottom: 6px;">Solid White Background Guarantee</h3>
+                <p style="color: var(--admin-text-muted); font-size: 0.88rem;">The production loader component is locked to <strong>SOLID WHITE #FFFFFF</strong> with zero transparency to prevent any hero element leakage during resource initialization.</p>
+              </div>
+
+              <button type="submit" class="admin-btn admin-btn-primary">Save Loader Configuration</button>
+            </form>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             TAB 9: SEO (localStorage 'alfaiz_seo')
+             ================================================================ -->
+        <section class="admin-tab-pane" id="tab-seo" style="display: none;">
+          <div class="admin-panel-card">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">SEO &amp; OpenGraph Meta Matrix</h2>
+                <p class="panel-desc">Configure search crawl metadata and preview how your portfolio renders on Google SERPs.</p>
+              </div>
+            </div>
+
+            <form id="seo-form">
+              <div class="admin-field-group" style="margin-bottom: 20px;">
+                <label for="seo-title-input" class="admin-field-label">Page Meta Title (50-60 characters)</label>
+                <input type="text" id="seo-title-input" class="admin-input" value="ALFAIZ | Web Architect - High Performance Web Systems" required>
+              </div>
+
+              <div class="admin-field-group" style="margin-bottom: 20px;">
+                <label for="seo-desc-input" class="admin-field-label">Meta Description (140-160 characters)</label>
+                <textarea id="seo-desc-input" class="admin-input admin-textarea" rows="3" required>High-performance digital engineering crafted without framework overhead. Sub-second latency, rock-solid architectural stability, and frictionless scalability.</textarea>
+              </div>
+
+              <div class="admin-field-group" style="margin-bottom: 26px;">
+                <label for="seo-keywords-input" class="admin-field-label">Meta Keywords</label>
+                <input type="text" id="seo-keywords-input" class="admin-input" value="Web Architect, Vanilla JS, Performance Engineering, Core Web Vitals, Enterprise Frontend">
+              </div>
+
+              <!-- Live Google SERP Snippet Preview -->
+              <div style="background: #FFFFFF; color: #1e293b; padding: 22px; border-radius: 12px; margin-bottom: 26px; border: 1px solid #DBEAFE;">
+                <div style="font-size: 0.76rem; color: #475569; margin-bottom: 4px;">https://alfaiz-architect.com</div>
+                <div id="serp-title-preview" style="font-size: 1.15rem; color: #1a0dab; font-weight: 600; text-decoration: underline; margin-bottom: 4px;">
+                  ALFAIZ | Web Architect - High Performance Web Systems
+                </div>
+                <div id="serp-desc-preview" style="font-size: 0.88rem; color: #4b5563; line-height: 1.5;">
+                  High-performance digital engineering crafted without framework overhead. Sub-second latency, rock-solid architectural stability, and frictionless scalability.
+                </div>
+              </div>
+
+              <button type="submit" class="admin-btn admin-btn-primary">Save SEO Settings</button>
+            </form>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Global Admin Toast Notification -->
+  <div class="admin-toast" id="admin-toast" role="status" aria-live="polite">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+    <span id="toast-message">Configuration saved successfully!</span>
+  </div>
+
+  <!-- Admin System JS -->
+  <script src="../js/admin.js"></script>
+</body>
+</html>
+

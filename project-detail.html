@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Technical Project Architecture Details - ALFAIZ Web Architect. In-depth system specifications, video walk-through, telemetry benchmarks, and architecture decisions.">
+  <meta name="theme-color" content="#0F6CBD">
+  <title>Project Details | ALFAIZ Web Architect</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans & Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" id="site-favicon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><polygon points=%2250,5 95,28 95,72 50,95 5,72 5,28%22 fill=%22%230F6CBD%22/><text x=%2250%22 y=%2264%22 font-family=%22sans-serif%22 font-weight=%22800%22 font-size=%2246%22 fill=%22white%22 text-anchor=%22middle%22>A</text></svg>">
+</head>
+<body>
+
+  <!-- Ambient Light Watercolor Splashes (Solid Pure White Base) -->
+  <div class="watercolor-bg" aria-hidden="true">
+    <div class="splash splash-top-right"></div>
+    <div class="splash splash-hero-center"></div>
+    <div class="splash splash-mid-left"></div>
+    <div class="splash splash-bottom-right"></div>
+  </div>
+
+  <!-- Header / Navigation Bar (White Rounded 50px Pill) -->
+  <header class="header-container" id="site-header">
+    <nav class="nav-pill" aria-label="Main Navigation">
+      <!-- Left: Brand Identity -->
+      <a href="index.html" class="nav-brand" aria-label="ALFAIZ Web Architect Home">
+        <span class="brand-name">ALFAIZ</span>
+        <span class="brand-divider">|</span>
+        <span class="brand-title">Web Architect</span>
+      </a>
+
+      <!-- Center: Navigation Links -->
+      <ul class="nav-links" id="nav-links-menu">
+        <li><a href="index.html" class="nav-link">HOME</a></li>
+        <li><a href="experience.html" class="nav-link">EXPERIENCE</a></li>
+        <li><a href="projects.html" class="nav-link active">PROJECTS</a></li>
+        <li><a href="about.html" class="nav-link">ABOUT</a></li>
+        <li><a href="services.html" class="nav-link">SERVICES</a></li>
+        <li><a href="index.html#contact" class="nav-link">CONTACT</a></li>
+      </ul>
+
+      <!-- Right: Call to Action -->
+      <div class="nav-cta-wrapper">
+        <a href="index.html#contact" class="btn btn-primary btn-sm nav-btn">Get in Touch</a>
+      </div>
+
+      <!-- Mobile Menu Toggle Button -->
+      <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </nav>
+
+    <!-- Mobile Dropdown Navigation -->
+    <div class="mobile-menu" id="mobile-menu">
+      <ul class="mobile-nav-links">
+        <li><a href="index.html" class="mobile-nav-link">HOME</a></li>
+        <li><a href="experience.html" class="mobile-nav-link">EXPERIENCE</a></li>
+        <li><a href="projects.html" class="mobile-nav-link">PROJECTS</a></li>
+        <li><a href="about.html" class="mobile-nav-link">ABOUT</a></li>
+        <li><a href="services.html" class="mobile-nav-link">SERVICES</a></li>
+        <li><a href="index.html#contact" class="mobile-nav-link">CONTACT</a></li>
+      </ul>
+      <div class="mobile-menu-cta">
+        <a href="index.html#contact" class="btn btn-primary btn-full">Get in Touch</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Dynamic Project Detail View: reads 'id' from URLSearchParams, pulls from localStorage 'alfaiz_portfolio_v2' -->
+    <div class="detail-view-container container" id="project-detail-view">
+      
+      <!-- Static Initial Skeleton / Fallback Render (Overwritten seamlessly by js/main.js) -->
+      <div class="detail-top-bar">
+        <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="breadcrumb-separator">/</span>
+          <a href="projects.html">Projects</a>
+          <span class="breadcrumb-separator">/</span>
+          <span class="breadcrumb-current">Nexus Global Financial Engine</span>
+        </nav>
+        <a href="projects.html" class="btn btn-outline btn-sm">
+          &larr; Back to All Projects
+        </a>
+      </div>
+
+      <div class="detail-header-card">
+        <div class="detail-header-meta">
+          <span class="detail-cat-badge">Fintech Core</span>
+          <span class="detail-status-badge">Production Live</span>
+        </div>
+        <h1 class="detail-title">Nexus Global Financial Engine</h1>
+        <p class="detail-subtitle">Institutional-grade currency and liquidity terminal running on pure vanilla JavaScript</p>
+
+        <div class="detail-client-strip">
+          <div class="client-strip-item">
+            <span class="strip-label">CLIENT / ORG</span>
+            <span class="strip-val">Global Capital Markets Ltd.</span>
+          </div>
+          <div class="client-strip-item">
+            <span class="strip-label">YEAR</span>
+            <span class="strip-val">2024</span>
+          </div>
+          <div class="client-strip-item">
+            <span class="strip-label">ROLE</span>
+            <span class="strip-val">Lead Web Architect</span>
+          </div>
+          <div class="client-strip-item">
+            <span class="strip-label">DEPENDENCY COUNT</span>
+            <span class="strip-val">0 (Pure Native)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-media-section">
+        <div class="section-tag">LIVE DEMO &amp; TELEMETRY</div>
+        <h2 class="detail-section-title">System Execution &amp; Walkthrough</h2>
+
+        <!-- Video Iframe -->
+        <div class="video-iframe-container">
+          <iframe 
+            src="https://www.youtube-nocookie.com/embed/ScMzIvxBSi4?rel=0&amp;modestbranding=1" 
+            title="Nexus Global Financial Engine Architecture Walkthrough" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen
+            class="video-iframe">
+          </iframe>
+        </div>
+
+        <!-- Gallery Grid (16:9 images) -->
+        <div class="detail-gallery-grid">
+          <div class="gallery-item-wrap">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&h=675&q=80" alt="Telemetry Visualizer" class="detail-gallery-img">
+          </div>
+          <div class="gallery-item-wrap">
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&h=675&q=80" alt="Liquidity Engine" class="detail-gallery-img">
+          </div>
+          <div class="gallery-item-wrap">
+            <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1200&h=675&q=80" alt="Performance Profiler" class="detail-gallery-img">
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-content-card">
+        <div class="detail-content-section">
+          <h2 class="detail-heading">Executive Architectural Overview</h2>
+          <p class="detail-paragraph">
+            Nexus was architected for high-frequency algorithmic traders and institutional desks requiring sub-millisecond price quote rendering. By replacing a legacy 4.8MB React/Redux bundle with pure native DOM nodes and binary WebSocket decoders, First Contentful Paint dropped to 0.19 seconds and memory churn was reduced by 94%.
+          </p>
+        </div>
+
+        <div class="detail-content-section">
+          <h3 class="detail-subheading">Core Performance Benchmark</h3>
+          <div class="detail-metrics-grid">
+            <div class="detail-metric-card">
+              <span class="metric-num">18.4 KB</span>
+              <span class="metric-key">PAYLOAD</span>
+            </div>
+            <div class="detail-metric-card">
+              <span class="metric-num">0.19s</span>
+              <span class="metric-key">FCP</span>
+            </div>
+            <div class="detail-metric-card">
+              <span class="metric-num">0.24s</span>
+              <span class="metric-key">LCP</span>
+            </div>
+            <div class="detail-metric-card">
+              <span class="metric-num">60 Constant</span>
+              <span class="metric-key">FPS</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-content-section">
+          <h3 class="detail-subheading">Key Technical Innovations</h3>
+          <ul class="detail-highlights-list">
+            <li><span class="bullet-check">&check;</span> Zero virtual DOM overhead; direct diffing using native DocumentFragment batching.</li>
+            <li><span class="bullet-check">&check;</span> Custom memory pooler reusing objects to completely eliminate GC garbage collection stutter.</li>
+            <li><span class="bullet-check">&check;</span> WebSocket binary ArrayBuffer decoding executed directly inside dedicated Web Workers.</li>
+            <li><span class="bullet-check">&check;</span> Strict Content Security Policy (CSP Level 3) with zero third-party script vulnerabilities.</li>
+          </ul>
+        </div>
+
+        <div class="detail-content-section">
+          <h3 class="detail-subheading">Technologies &amp; Protocols</h3>
+          <div class="detail-tags-group">
+            <span class="project-tag-lg">Pure Vanilla JS</span>
+            <span class="project-tag-lg">WebSocket</span>
+            <span class="project-tag-lg">Canvas 2D</span>
+            <span class="project-tag-lg">Binary Buffers</span>
+          </div>
+        </div>
+
+        <div class="detail-cta-box">
+          <div class="detail-cta-text">
+            <h3>Need a Similar High-Performance Architecture?</h3>
+            <p>Discuss your system bottlenecks, custom freelance requirements, or order a verified Fiverr package.</p>
+          </div>
+          <div class="detail-cta-actions">
+            <a href="index.html#contact" class="btn btn-primary btn-lg">Discuss System Spec</a>
+            <a href="https://www.fiverr.com" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-lg">Order Fiverr Gig</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-left">
+        <a href="index.html" class="footer-brand">
+          <span class="brand-name">ALFAIZ</span>
+          <span class="brand-divider">|</span>
+          <span class="brand-title">Web Architect</span>
+        </a>
+        <p class="footer-tagline">Architecting Future-Ready Web Systems With Pure Speed.</p>
+      </div>
+
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="experience.html">Experience</a>
+        <a href="projects.html">Projects</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+
+      <div class="footer-right">
+        <p class="copyright">&copy; 2026 ALFAIZ. All rights reserved. Zero-framework pure engineering.</p>
+        <a href="#site-header" class="back-to-top" aria-label="Back to top">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Vanilla JavaScript -->
+  <script src="js/main.js"></script>
+</body>
+</html>
+
