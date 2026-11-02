@@ -61,7 +61,7 @@
   <header class="header-container" id="site-header">
     <nav class="nav-pill" aria-label="Main Navigation">
       <!-- Left: Brand Identity -->
-      <a href="#home" class="nav-brand" aria-label="ALFAIZ Web Architect Home">
+      <a href="index.html" class="nav-brand" aria-label="ALFAIZ Web Architect Home">
         <span class="brand-name">ALFAIZ</span>
         <span class="brand-divider">|</span>
         <span class="brand-title">Web Architect</span>
@@ -74,12 +74,18 @@
         <li><a href="projects.html" class="nav-link">PROJECTS</a></li>
         <li><a href="about.html" class="nav-link">ABOUT</a></li>
         <li><a href="services.html" class="nav-link">SERVICES</a></li>
-        <li><a href="#contact" class="nav-link">CONTACT</a></li>
+        <li><a href="contact.html" class="nav-link">CONTACT</a></li>
       </ul>
 
-      <!-- Right: Call to Action -->
+      <!-- Right: Call to Action & Admin Lock Gateway -->
       <div class="nav-cta-wrapper">
-        <a href="#contact" class="btn btn-primary btn-sm nav-btn">Get in Touch</a>
+        <a href="contact.html" class="btn btn-primary btn-sm nav-btn">Get in Touch</a>
+        <a href="admin/login.html" class="nav-admin-lock" title="Admin Security Gate" aria-label="Administrative Console Login">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </a>
       </div>
 
       <!-- Mobile Menu Toggle Button -->
@@ -93,15 +99,22 @@
     <!-- Mobile Dropdown Navigation -->
     <div class="mobile-menu" id="mobile-menu">
       <ul class="mobile-nav-links">
-        <li><a href="index.html" class="mobile-nav-link">HOME</a></li>
+        <li><a href="index.html" class="mobile-nav-link active">HOME</a></li>
         <li><a href="experience.html" class="mobile-nav-link">EXPERIENCE</a></li>
         <li><a href="projects.html" class="mobile-nav-link">PROJECTS</a></li>
         <li><a href="about.html" class="mobile-nav-link">ABOUT</a></li>
         <li><a href="services.html" class="mobile-nav-link">SERVICES</a></li>
-        <li><a href="#contact" class="mobile-nav-link">CONTACT</a></li>
+        <li><a href="contact.html" class="mobile-nav-link">CONTACT</a></li>
       </ul>
       <div class="mobile-menu-cta">
-        <a href="#contact" class="btn btn-primary btn-full">Get in Touch</a>
+        <a href="contact.html" class="btn btn-primary btn-full">Get in Touch</a>
+        <a href="admin/login.html" class="btn btn-outline btn-full" style="margin-top: 10px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <span>Admin Security Gate</span>
+        </a>
       </div>
     </div>
   </header>
@@ -134,7 +147,7 @@
 
           <!-- Action Buttons -->
           <div class="hero-cta-group">
-            <a href="#projects" class="btn btn-primary btn-lg">
+            <a href="projects.html" class="btn btn-primary btn-lg">
               <span>Explore Selected Works</span>
               <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -232,502 +245,240 @@
       </div>
 
       <!-- Clean Scroll Indicator -->
-      <a href="#experience" class="scroll-down-indicator" aria-label="Scroll to Experience section">
+      <a href="#gateways" class="scroll-down-indicator" aria-label="Scroll to Architectural Disciplines">
         <span class="mouse-icon">
           <span class="wheel"></span>
         </span>
       </a>
     </section>
 
-
-    <!-- EXPERIENCE SECTION -->
-    <section class="section experience-section" id="experience">
+    <!-- ARCHITECTURAL MATRIX & DISCIPLINES GATEWAY -->
+    <section class="section" id="gateways" style="padding: 90px 0;">
       <div class="container">
         
         <div class="section-header">
-          <div class="section-tag">TRACK RECORD</div>
-          <h2 class="section-title">Architectural Engineering Journey</h2>
+          <div class="section-tag">ENGINEERING MATRIX</div>
+          <h2 class="section-title">Five Pillars of Pure Digital Performance</h2>
           <p class="section-subtitle">
-            A proven record of engineering enterprise web infrastructure, high-concurrency systems, and bespoke frontend architectures.
+            Explore dedicated portals showcasing architectural career milestones, production systems, engineering philosophy, services, and direct collaboration.
           </p>
         </div>
 
-        <div class="timeline">
+        <div class="services-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px;">
           
-          <!-- Experience Card 1 -->
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-              <div class="timeline-badge">2023 - PRESENT</div>
-              <h3 class="timeline-title">Principal Web Architect</h3>
-              <div class="timeline-org">Enterprise System Solutions</div>
-              <p class="timeline-desc">
-                Leading high-scale platform refactoring initiatives. Replaced monolithic bloated frontend bundles with modular vanilla systems, achieving an 84% reduction in bundle size and sub-400ms global render times.
+          <!-- Pillar 1: Experience -->
+          <article class="service-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div class="service-number" style="color: #0F6CBD;">01</div>
+              <h3 class="service-title">Track Record &amp; Experience</h3>
+              <p class="service-desc">
+                A chronology of enterprise platform refactorings, micro-frontend migrations, and eliminating bloated framework bundles for global organizations.
               </p>
-              <div class="tech-pills">
-                <span class="tech-pill">Vanilla JS</span>
-                <span class="tech-pill">Micro-frontends</span>
-                <span class="tech-pill">Web Workers</span>
-                <span class="tech-pill">Edge Computing</span>
-              </div>
+              <ul class="service-deliverables">
+                <li>84% Bundle Size Reductions</li>
+                <li>Sub-400ms Worldwide Renders</li>
+                <li>Enterprise Micro-Frontends</li>
+              </ul>
             </div>
-          </div>
+            <div style="margin-top: 24px;">
+              <a href="experience.html" class="btn btn-outline btn-full">
+                <span>View Career Timeline &rarr;</span>
+              </a>
+            </div>
+          </article>
 
-          <!-- Experience Card 2 -->
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-              <div class="timeline-badge">2021 - 2023</div>
-              <h3 class="timeline-title">Senior Web Performance Engineer</h3>
-              <div class="timeline-org">Global Fintech Infrastructure</div>
-              <p class="timeline-desc">
-                Architected ultra-low latency dashboards handling real-time WebSocket feeds with 60FPS fluid canvas visualizations, strict memory leak prevention, and zero layout thrashing.
+          <!-- Pillar 2: Projects -->
+          <article class="service-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div class="service-number" style="color: #0F6CBD;">02</div>
+              <h3 class="service-title">Engineered Systems Portfolio</h3>
+              <p class="service-desc">
+                Production-grade platforms built with pure vanilla JS, 60FPS hardware-accelerated canvas, real-time WebSockets, and zero framework overhead.
               </p>
-              <div class="tech-pills">
-                <span class="tech-pill">WebSocket</span>
-                <span class="tech-pill">Canvas API</span>
-                <span class="tech-pill">Performance Profiling</span>
-                <span class="tech-pill">CSS3 Hardware Acceleration</span>
-              </div>
+              <ul class="service-deliverables">
+                <li>Sub-second Time-To-Interactive</li>
+                <li>Dynamic Video &amp; Image Deep-Dives</li>
+                <li>Interactive Project Detail Pages</li>
+              </ul>
             </div>
-          </div>
+            <div style="margin-top: 24px;">
+              <a href="projects.html" class="btn btn-outline btn-full">
+                <span>Browse All 6 Projects &rarr;</span>
+              </a>
+            </div>
+          </article>
 
-          <!-- Experience Card 3 -->
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-              <div class="timeline-badge">2019 - 2021</div>
-              <h3 class="timeline-title">Frontend Systems Architect</h3>
-              <div class="timeline-org">Omnichannel Scale Labs</div>
-              <p class="timeline-desc">
-                Designed lightweight corporate web standards, component specifications, and responsive design systems serving millions of monthly active users with 100% Core Web Vitals compliance.
+          <!-- Pillar 3: About -->
+          <article class="service-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div class="service-number" style="color: #0F6CBD;">03</div>
+              <h3 class="service-title">Architecture &amp; Principles</h3>
+              <p class="service-desc">
+                Engineering values prioritizing zero-dependency resilience, critical render path optimization, and client-centric return on investment.
               </p>
-              <div class="tech-pills">
-                <span class="tech-pill">Modern HTML5</span>
-                <span class="tech-pill">Pure CSS Grid/Flex</span>
-                <span class="tech-pill">WCAG 2.1 AA</span>
-                <span class="tech-pill">Cross-Browser Optimization</span>
-              </div>
+              <ul class="service-deliverables">
+                <li>Zero-Dependency Philosophy</li>
+                <li>Modular Structural Purity</li>
+                <li>Meet the Architect Section</li>
+              </ul>
             </div>
-          </div>
+            <div style="margin-top: 24px;">
+              <a href="about.html" class="btn btn-outline btn-full">
+                <span>Read Architectural Bio &rarr;</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- Pillar 4: Services -->
+          <article class="service-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div class="service-number" style="color: #0F6CBD;">04</div>
+              <h3 class="service-title">Precision Services &amp; Gigs</h3>
+              <p class="service-desc">
+                Bespoke consulting packages: enterprise system architecture, Core Web Vitals optimization, vanilla builds, and verified Fiverr gigs.
+              </p>
+              <ul class="service-deliverables">
+                <li>System Topology &amp; Blueprints</li>
+                <li>Lighthouse 99+ Certification</li>
+                <li>Fiverr Fast-Track Escrow Orders</li>
+              </ul>
+            </div>
+            <div style="margin-top: 24px;">
+              <a href="services.html" class="btn btn-outline btn-full">
+                <span>Explore Capabilities &rarr;</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- Pillar 5: Contact -->
+          <article class="service-card" style="display: flex; flex-direction: column; justify-content: space-between; border-color: rgba(15, 108, 189, 0.45); background: linear-gradient(135deg, #ffffff 0%, #f4f9ff 100%);">
+            <div>
+              <div class="service-number" style="color: #0F6CBD;">05</div>
+              <h3 class="service-title">Direct Client Channel</h3>
+              <p class="service-desc">
+                Connect directly with the principal architect. 4-hour SLA response window, upfront NDA agreements, and rapid-turnaround technical audits.
+              </p>
+              <ul class="service-deliverables">
+                <li>Guaranteed 4h Response Window</li>
+                <li>Working Interactive Inquiry Form</li>
+                <li>Direct Email &amp; Fiverr Options</li>
+              </ul>
+            </div>
+            <div style="margin-top: 24px;">
+              <a href="contact.html" class="btn btn-primary btn-full">
+                <span>Initiate Consultation &rarr;</span>
+              </a>
+            </div>
+          </article>
 
         </div>
 
       </div>
     </section>
 
-
-    <!-- PROJECTS SECTION -->
-    <section class="section projects-section" id="projects">
+    <!-- FEATURED SYSTEMS SPOTLIGHT PREVIEW -->
+    <section class="section" style="padding: 20px 0 90px; background-color: #FAFCFF;">
       <div class="container">
-        
-        <div class="section-header">
+        <div class="section-header" style="margin-bottom: 48px;">
           <div class="section-tag">SELECTED WORKS</div>
-          <h2 class="section-title">Engineered For Uncompromising Performance</h2>
+          <h2 class="section-title">Production Systems Highlights</h2>
           <p class="section-subtitle">
-            Every project is architected with obsessive precision: clean semantic markup, modular CSS architecture, and hyper-optimized vanilla JavaScript.
+            Preview of high-speed systems engineered with zero dependencies. Click any project to inspect its architectural specifications.
           </p>
         </div>
 
-        <!-- Filter Controls -->
-        <div class="filter-controls">
-          <button class="filter-btn active" data-filter="all">All Systems</button>
-          <button class="filter-btn" data-filter="enterprise">Enterprise</button>
-          <button class="filter-btn" data-filter="performance">Performance</button>
-          <button class="filter-btn" data-filter="vanilla">Vanilla JS</button>
+        <div class="projects-grid" id="home-featured-grid">
+          <!-- Card 1 -->
+          <article class="project-card" onclick="window.location.href='project-detail.html?id=1'" style="cursor: pointer;">
+            <div class="project-media-wrap">
+              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Apex Pulse Telemetry Engine" class="project-img" loading="lazy">
+              <span class="project-category-badge">Fintech / Telemetry</span>
+            </div>
+            <div class="project-card-body">
+              <h3 class="project-title">Apex Pulse &bull; Ultra-Low Latency Telemetry Engine</h3>
+              <p class="project-desc">
+                High-frequency algorithmic monitoring platform rendering 60,000 live updates/sec with hardware-accelerated canvas visualizers and zero DOM churn.
+              </p>
+              <div class="project-tags-strip">
+                <span class="project-tag-pill">Vanilla JS</span>
+                <span class="project-tag-pill">Canvas 60FPS</span>
+                <span class="project-tag-pill">WebSocket</span>
+              </div>
+              <div class="project-card-footer">
+                <span class="project-view-link">Explore Case Study &rarr;</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="project-card" onclick="window.location.href='project-detail.html?id=2'" style="cursor: pointer;">
+            <div class="project-media-wrap">
+              <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80" alt="Vanguard Design System" class="project-img" loading="lazy">
+              <span class="project-category-badge">Enterprise UI</span>
+            </div>
+            <div class="project-card-body">
+              <h3 class="project-title">Vanguard &bull; Zero-Runtime Enterprise System</h3>
+              <p class="project-desc">
+                Enterprise design token library and modular component ecosystem written entirely in CSS Custom Properties and semantic web components.
+              </p>
+              <div class="project-tags-strip">
+                <span class="project-tag-pill">CSS Architecture</span>
+                <span class="project-tag-pill">Web Components</span>
+                <span class="project-tag-pill">0 KB JS</span>
+              </div>
+              <div class="project-card-footer">
+                <span class="project-view-link">Explore Case Study &rarr;</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="project-card" onclick="window.location.href='project-detail.html?id=3'" style="cursor: pointer;">
+            <div class="project-media-wrap">
+              <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Chronos Hyper-Speed E-Commerce" class="project-img" loading="lazy">
+              <span class="project-category-badge">E-Commerce</span>
+            </div>
+            <div class="project-card-body">
+              <h3 class="project-title">Chronos &bull; Sub-200ms Instant Checkout Portal</h3>
+              <p class="project-desc">
+                High-conversion e-commerce storefront engineered with precomputed state machines, speculative prefetching, and sub-200ms checkout transitions.
+              </p>
+              <div class="project-tags-strip">
+                <span class="project-tag-pill">Speculative Prefetch</span>
+                <span class="project-tag-pill">State Machines</span>
+                <span class="project-tag-pill">Edge Cache</span>
+              </div>
+              <div class="project-card-footer">
+                <span class="project-view-link">Explore Case Study &rarr;</span>
+              </div>
+            </div>
+          </article>
         </div>
 
-        <!-- Projects Grid -->
-        <div class="projects-grid">
-          
-          <!-- Project 1 -->
-          <article class="project-card" data-category="enterprise performance">
-            <div class="project-header">
-              <div class="project-kpi-badge">99/100 SPEED</div>
-              <div class="project-type">Fintech Core</div>
-            </div>
-            <h3 class="project-name">Nexus Global Financial Engine</h3>
-            <p class="project-summary">
-              An institutional-grade currency and liquidity terminal running pure vanilla JS. Sub-millisecond tick calculation, zero external UI libraries, and rock-solid state management.
-            </p>
-            <div class="project-specs">
-              <div class="spec-item">
-                <span class="spec-label">Payload</span>
-                <span class="spec-val">18.4 KB total</span>
-              </div>
-              <div class="spec-item">
-                <span class="spec-label">LCP</span>
-                <span class="spec-val">0.24s</span>
-              </div>
-              <div class="spec-item">
-                <span class="spec-label">FPS</span>
-                <span class="spec-val">60 Constant</span>
-              </div>
-            </div>
-            <div class="project-footer">
-              <span class="tech-tag">Pure Vanilla JS</span>
-              <span class="tech-tag">CSS Custom Props</span>
-              <span class="tech-tag">WebSockets</span>
-            </div>
-          </article>
-
-          <!-- Project 2 -->
-          <article class="project-card" data-category="performance vanilla">
-            <div class="project-header">
-              <div class="project-kpi-badge">100/100 SPEED</div>
-              <div class="project-type">E-Commerce Architecture</div>
-            </div>
-            <h3 class="project-name">Veloce Headless Commerce Core</h3>
-            <p class="project-summary">
-              Custom-built shopping experience designed for high-concurrency flash sales. Replaced a sluggish 3.2MB Shopify bundle with a modular 35KB vanilla engine with instant page switches.
-            </p>
-            <div class="project-specs">
-              <div class="spec-item">
-                <span class="spec-label">Payload</span>
-                <span class="spec-val">34.8 KB</span>
-              </div>
-              <div class="spec-item">
-                <span class="spec-label">LCP</span>
-                <span class="spec-val">0.31s</span>
-              </div>
-              <div class="spec-item">
-                <span class="spec-label">Conversion</span>
-                <span class="spec-val">+38.4%</span>
-              </div>
-            </div>
-            <div class="project-footer">
-              <span class="tech-tag">HTML5 Template</span>
-              <span class="tech-tag">IndexedDB</span>
-              <span class="tech-tag">Vanilla Router</span>
-            </div>
-          </article>
-
-          <!-- Project 3 -->
-          <article class="project-card" data-category="enterprise">
-            <div class="project-header">
-              <div class="project-kpi-badge">ENTERPRISE SCALE</div>
-              <div class="project-type">Cloud Monitoring</div>
-            </div>
-            <h3 class="project-name">Aether Multi-Cloud Observability</h3>
-            <p class="project-summary">
-              Real-time distributed telemetry dashboard for multi-region server clusters. Features native SVG charting, asynchronous event streaming, and custom reactive micro-store.
-            </p>
-            <div class="project-specs">
-              <div class="spec-item">
-                <span class="spec-label">Payload</span>
-                <span class="spec-val">42.1 KB</span>
-              </div>
-              <div class="spec-item">
-                <span class="spec-label">Latency</span>
-                <span class="spec-val">&lt; 15ms</span>
-              </div>
-              <div class="spec-item">
-                <span class="spec-label">Security</span>
-                <span class="spec-val">CSP Strict</span>
-              </div>
-            </div>
-            <div class="project-footer">
-              <span class="tech-tag">Native SVG</span>
-              <span class="tech-tag">EventSource</span>
-              <span class="tech-tag">CSS Grid 3D</span>
-            </div>
-          </article>
-
-          <!-- Project 4 -->
-          <article class="project-card" data-category="vanilla performance">
-            <div class="project-header">
-              <div class="project-kpi-badge">0 FRAMEWORKS</div>
-              <div class="project-type">Component Framework</div>
-            </div>
-            <h3 class="project-name">Kinetics Micro-UI Component Standard</h3>
-            <p class="project-summary">
-              A bespoke, zero-dependency design system specification engineered for ultra-fast white-label corporate portals with unified tokenization and theme switching.
-            </p>
-            <div class="project-specs">
-              <div class="spec-item">
-                <span class="spec-label">Payload</span>
-                <span class="spec-val">12.0 KB</span>
-              </div>
-              <div class="spec-item">
-                <span class="spec-label">FCP</span>
-                <span class="spec-val">0.18s</span>
-              </div>
-              <div class="spec-item">
-                <span class="spec-label">A11y</span>
-                <span class="spec-val">100/100</span>
-              </div>
-            </div>
-            <div class="project-footer">
-              <span class="tech-tag">CSS Shadow DOM</span>
-              <span class="tech-tag">Custom Elements</span>
-              <span class="tech-tag">Accessible ARIA</span>
-            </div>
-          </article>
-
+        <div style="text-align: center; margin-top: 48px;">
+          <a href="projects.html" class="btn btn-primary btn-lg">
+            <span>View All Engineered Systems &rarr;</span>
+          </a>
         </div>
-
       </div>
     </section>
 
-
-    <!-- ABOUT SECTION -->
-    <section class="section about-section" id="about">
+    <!-- ARCHITECTURAL CALL TO ACTION BANNER -->
+    <section class="section" style="padding: 80px 0;">
       <div class="container">
-        
-        <div class="section-header">
-          <div class="section-tag">ENGINEERING PHILOSOPHY</div>
-          <h2 class="section-title">Why Web Architecture Matters</h2>
-          <p class="section-subtitle">
-            Modern web development is bloated with unnecessary layers. We construct lean, bulletproof systems that last decades.
-          </p>
+        <div class="detail-cta-box" style="margin: 0 auto; max-width: 980px;">
+          <div class="detail-cta-text">
+            <h3>Ready to Architect High-Speed Web Infrastructure?</h3>
+            <p>Whether you require an emergency performance turnaround, custom vanilla build, or verified Fiverr package, let's connect today.</p>
+          </div>
+          <div class="detail-cta-actions">
+            <a href="contact.html" class="btn btn-primary btn-lg">Initiate Consultation</a>
+            <a href="https://www.fiverr.com" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-lg">Order Fiverr Gig</a>
+          </div>
         </div>
-
-        <div class="principles-grid">
-          
-          <div class="principle-card">
-            <div class="principle-icon-box">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F6CBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-              </svg>
-            </div>
-            <h3 class="principle-title">Speed as a Core Feature</h3>
-            <p class="principle-desc">
-              Every millisecond of delay directly damages conversions and search rankings. We architect systems with zero heavy runtimes, achieving instant execution and pristine Core Web Vitals.
-            </p>
-          </div>
-
-          <div class="principle-card">
-            <div class="principle-icon-box">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F6CBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="3" y1="9" x2="21" y2="9"></line>
-                <line x1="9" y1="21" x2="9" y2="9"></line>
-              </svg>
-            </div>
-            <h3 class="principle-title">Modular Structural Purity</h3>
-            <p class="principle-desc">
-              Clean separation of concerns with resilient semantic HTML, modular CSS styling variables, and decoupled vanilla logic ensuring that codebases remain maintainable for years.
-            </p>
-          </div>
-
-          <div class="principle-card">
-            <div class="principle-icon-box">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F6CBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              </svg>
-            </div>
-            <h3 class="principle-title">Zero-Dependency Resilience</h3>
-            <p class="principle-desc">
-              Eliminating sprawling node_modules vulnerabilities and deprecation cycles. Your platform depends on web standards natively supported across every device and browser.
-            </p>
-          </div>
-
-          <div class="principle-card">
-            <div class="principle-icon-box">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F6CBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="2" y1="12" x2="22" y2="12"></line>
-                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-              </svg>
-            </div>
-            <h3 class="principle-title">Client-Centric ROI</h3>
-            <p class="principle-desc">
-              Architecture isn't an academic exercise—it is a business lever. Lower server costs, higher organic traffic, smoother user conversion, and zero ongoing dependency maintenance fees.
-            </p>
-          </div>
-
-        </div>
-
       </div>
     </section>
 
-
-    <!-- SERVICES SECTION -->
-    <section class="section services-section" id="services">
-      <div class="container">
-        
-        <div class="section-header">
-          <div class="section-tag">SERVICES &amp; CAPABILITIES</div>
-          <h2 class="section-title">Precision Web Architecture Services</h2>
-          <p class="section-subtitle">
-            Tailored engineering engagements for organizations and fast-moving teams that prioritize speed and architectural precision.
-          </p>
-        </div>
-
-        <div class="services-grid">
-          
-          <div class="service-card">
-            <div class="service-number">01</div>
-            <h3 class="service-title">Enterprise System Architecture</h3>
-            <p class="service-desc">
-              End-to-end frontend blueprinting, decoupling monolithic frontends, designing robust caching policies, and setting up high-performance design token architectures.
-            </p>
-            <ul class="service-deliverables">
-              <li>System Topology &amp; Architecture Spec</li>
-              <li>Modular Component Standards</li>
-              <li>Data-Flow &amp; API Integration Strategy</li>
-            </ul>
-          </div>
-
-          <div class="service-card">
-            <div class="service-number">02</div>
-            <h3 class="service-title">Performance Auditing &amp; Refactoring</h3>
-            <p class="service-desc">
-              Deep profiling of memory leaks, rendering bottlenecks, JavaScript execution churn, and asset bloat to achieve perfect 95+ Core Web Vitals across mobile and desktop.
-            </p>
-            <ul class="service-deliverables">
-              <li>Comprehensive Performance Profiling</li>
-              <li>Critical Render Path Optimization</li>
-              <li>Lighthouse 99+ Certification</li>
-            </ul>
-          </div>
-
-          <div class="service-card">
-            <div class="service-number">03</div>
-            <h3 class="service-title">Pure Vanilla Web Engineering</h3>
-            <p class="service-desc">
-              Custom web applications, client portals, and interactive calculators built entirely in native HTML, CSS, and vanilla JS. Instant load, zero framework vulnerabilities.
-            </p>
-            <ul class="service-deliverables">
-              <li>Zero-Dependency Codebase</li>
-              <li>Custom Micro-Animations &amp; 3D Glass</li>
-              <li>Cross-Browser Compatibility Tested</li>
-            </ul>
-          </div>
-
-          <div class="service-card">
-            <div class="service-number">04</div>
-            <h3 class="service-title">Fiverr Custom Gig Engagements</h3>
-            <p class="service-desc">
-              Direct, vetted project contracts through Fiverr for rapid delivery of landing pages, technical performance audits, architectural reviews, and frontend fixes.
-            </p>
-            <ul class="service-deliverables">
-              <li>Escrow-Protected Orders</li>
-              <li>24 to 72 Hour Turnaround Available</li>
-              <li>Full Code Documentation &amp; Support</li>
-            </ul>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-
-    <!-- CONTACT SECTION -->
-    <section class="section contact-section" id="contact">
-      <div class="container">
-        
-        <div class="section-header">
-          <div class="section-tag">INITIATE COLLABORATION</div>
-          <h2 class="section-title">Ready to Elevate Your Web Architecture?</h2>
-          <p class="section-subtitle">
-            Let's discuss your next project, performance bottlenecks, or custom freelance engagement.
-          </p>
-        </div>
-
-        <div class="contact-wrapper">
-          
-          <!-- Contact Left: Direct Contact Information -->
-          <div class="contact-info">
-            <h3 class="contact-info-title">Direct Client Channel</h3>
-            <p class="contact-info-desc">
-              Whether you need an architectural review, a complete ground-up vanilla build, or a verified order through Fiverr, I'm ready to collaborate.
-            </p>
-
-            <div class="contact-channels">
-              <div class="channel-card">
-                <div class="channel-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6CBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                    <polyline points="22,6 12,13 2,6"></polyline>
-                  </svg>
-                </div>
-                <div class="channel-detail">
-                  <span class="channel-name">Direct Inquiries</span>
-                  <a href="mailto:contact@alfaiz-architect.com" class="channel-link">contact@alfaiz-architect.com</a>
-                </div>
-              </div>
-
-              <div class="channel-card">
-                <div class="channel-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6CBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polyline points="12 6 12 12 16 14"></polyline>
-                  </svg>
-                </div>
-                <div class="channel-detail">
-                  <span class="channel-name">Response Window</span>
-                  <span class="channel-meta">Within 4 business hours</span>
-                </div>
-              </div>
-
-              <div class="channel-card highlight-card">
-                <div class="channel-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6CBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="2" y1="12" x2="22" y2="12"></line>
-                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-                  </svg>
-                </div>
-                <div class="channel-detail">
-                  <span class="channel-name">Fast-Track Delivery</span>
-                  <a href="https://www.fiverr.com" target="_blank" rel="noopener noreferrer" class="channel-link fiverr-link">
-                    Order via Fiverr Secure Gig &rarr;
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Contact Right: Working Interactive Client Message Form -->
-          <div class="contact-form-container">
-            <form id="contact-form" class="contact-form" novalidate>
-              <div class="form-group">
-                <label for="client-name" class="form-label">Full Name / Organization *</label>
-                <input type="text" id="client-name" name="name" class="form-input" placeholder="e.g. Sarah Jenkins / Acme Tech" required>
-                <span class="error-msg" id="name-error">Please enter your name.</span>
-              </div>
-
-              <div class="form-group">
-                <label for="client-email" class="form-label">Email Address *</label>
-                <input type="email" id="client-email" name="email" class="form-input" placeholder="e.g. sarah@acmetech.com" required>
-                <span class="error-msg" id="email-error">Please enter a valid business email.</span>
-              </div>
-
-              <div class="form-group">
-                <label for="project-type" class="form-label">Project Scope</label>
-                <select id="project-type" name="type" class="form-select">
-                  <option value="freelance">Freelance Web Architecture</option>
-                  <option value="audit">Performance Audit &amp; Optimization</option>
-                  <option value="vanilla">Pure Vanilla JS Custom Build</option>
-                  <option value="fiverr">Fiverr Gig Custom Package</option>
-                  <option value="other">General Consultation</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="client-message" class="form-label">Project Details / Goals *</label>
-                <textarea id="client-message" name="message" rows="4" class="form-textarea" placeholder="Tell me about your timeline, performance targets, and system requirements..." required></textarea>
-                <span class="error-msg" id="message-error">Please provide a brief message.</span>
-              </div>
-
-              <button type="submit" class="btn btn-primary btn-full btn-submit" id="submit-btn">
-                <span>Send Architectural Inquiry</span>
-                <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="22" y1="2" x2="11" y2="13"></line>
-                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                </svg>
-              </button>
-
-              <div class="form-status" id="form-status" aria-live="polite"></div>
-            </form>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
   </main>
 
 
@@ -735,7 +486,7 @@
   <footer class="site-footer">
     <div class="container footer-container">
       <div class="footer-left">
-        <a href="#home" class="footer-brand">
+        <a href="index.html" class="footer-brand">
           <span class="brand-name">ALFAIZ</span>
           <span class="brand-divider">|</span>
           <span class="brand-title">Web Architect</span>
@@ -749,12 +500,13 @@
         <a href="projects.html">Projects</a>
         <a href="about.html">About</a>
         <a href="services.html">Services</a>
-        <a href="#contact">Contact</a>
+        <a href="contact.html">Contact</a>
+        <a href="admin/login.html" style="color: #0F6CBD;">Admin Gateway</a>
       </div>
 
       <div class="footer-right">
         <p class="copyright">&copy; 2026 ALFAIZ. All rights reserved. Zero-framework pure engineering.</p>
-        <a href="#home" class="back-to-top" aria-label="Back to top">
+        <a href="#site-header" class="back-to-top" aria-label="Back to top">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="18 15 12 9 6 15"></polyline>
           </svg>

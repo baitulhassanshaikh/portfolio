@@ -51,7 +51,16 @@
           <span>Hero</span>
         </a>
 
-        <!-- 3. Projects -->
+        <!-- 3. Experience -->
+        <a href="#experience" class="sidebar-link" data-tab="experience">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span>Experience</span>
+        </a>
+
+        <!-- 4. Projects -->
         <a href="#projects" class="sidebar-link" data-tab="projects">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
@@ -61,21 +70,13 @@
           <span>Projects</span>
         </a>
 
-        <!-- 4. Experience -->
-        <a href="#experience" class="sidebar-link" data-tab="experience">
+        <!-- 5. About -->
+        <a href="#about" class="sidebar-link" data-tab="about">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <polyline points="12 6 12 12 16 14"></polyline>
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
           </svg>
-          <span>Experience</span>
-        </a>
-
-        <!-- 5. Skills -->
-        <a href="#skills" class="sidebar-link" data-tab="skills">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-          </svg>
-          <span>Skills</span>
+          <span>About</span>
         </a>
 
         <!-- 6. Services -->
@@ -437,6 +438,58 @@
                   <li>WebCrypto SubtleCrypto Signing</li>
                   <li>CSP Level 3 Strict Sandboxing</li>
                 </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================================================================
+             TAB 5: ABOUT
+             ================================================================ -->
+        <section class="admin-tab-pane" id="tab-about" style="display: none;">
+          <div class="admin-panel-card">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Architectural Philosophy &amp; Bio Matrix</h2>
+                <p class="panel-desc">Configure core tenets, performance guarantees, and the bottom 'Meet the Architect' section.</p>
+              </div>
+            </div>
+
+            <div class="admin-grid-2col" style="margin-bottom: 24px;">
+              <div style="background: rgba(2,6,23,0.5); padding: 22px; border-radius: 12px; border: 1px solid var(--admin-border);">
+                <h3 style="color: #38BDF8; font-size: 1.05rem; margin-bottom: 8px;">Philosophy Pillar 01</h3>
+                <h4 style="color: #F8FAFC; font-size: 0.95rem; margin-bottom: 6px;">Pure Speed as a Foundational Metric</h4>
+                <p style="color: var(--admin-text-muted); font-size: 0.86rem;">Eliminating framework overhead and hydration lag for microsecond interaction.</p>
+              </div>
+
+              <div style="background: rgba(2,6,23,0.5); padding: 22px; border-radius: 12px; border: 1px solid var(--admin-border);">
+                <h3 style="color: #38BDF8; font-size: 1.05rem; margin-bottom: 8px;">Philosophy Pillar 02</h3>
+                <h4 style="color: #F8FAFC; font-size: 0.95rem; margin-bottom: 6px;">Modular Structural Purity</h4>
+                <p style="color: var(--admin-text-muted); font-size: 0.86rem;">Decoupled semantic HTML, CSS tokens, and focused vanilla logic.</p>
+              </div>
+
+              <div style="background: rgba(2,6,23,0.5); padding: 22px; border-radius: 12px; border: 1px solid var(--admin-border);">
+                <h3 style="color: #38BDF8; font-size: 1.05rem; margin-bottom: 8px;">Philosophy Pillar 03</h3>
+                <h4 style="color: #F8FAFC; font-size: 0.95rem; margin-bottom: 6px;">Zero-Dependency Resilience</h4>
+                <p style="color: var(--admin-text-muted); font-size: 0.86rem;">Native browser web APIs lasting decades with zero maintenance re-writes.</p>
+              </div>
+
+              <div style="background: rgba(2,6,23,0.5); padding: 22px; border-radius: 12px; border: 1px solid var(--admin-border);">
+                <h3 style="color: #38BDF8; font-size: 1.05rem; margin-bottom: 8px;">Philosophy Pillar 04</h3>
+                <h4 style="color: #F8FAFC; font-size: 0.95rem; margin-bottom: 6px;">High-Return Business Engineering</h4>
+                <p style="color: var(--admin-text-muted); font-size: 0.86rem;">Direct translation from sub-second latency to conversion rate uplifts.</p>
+              </div>
+            </div>
+
+            <!-- Bottom Meet the Architect Profile Overview -->
+            <div style="background: rgba(15,23,42,0.9); padding: 24px; border-radius: 14px; border: 1px solid rgba(15,108,189,0.3);">
+              <h3 style="color: #F8FAFC; font-size: 1.15rem; margin-bottom: 4px;">Bottom Section: Meet the Architect (#ceo-section)</h3>
+              <p style="color: var(--admin-text-muted); font-size: 0.88rem; margin-bottom: 14px;">Strict Rule: Positioned exclusively at bottom of about.html, never in hero.</p>
+              <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+                <div style="color: #10B981; font-size: 0.82rem; font-weight: 700;">• Lead: ALFAIZ</div>
+                <div style="color: var(--admin-text-dim); font-size: 0.82rem;">• 8+ Years Experience</div>
+                <div style="color: var(--admin-text-dim); font-size: 0.82rem;">• 50+ Deployments</div>
+                <div style="color: var(--admin-text-dim); font-size: 0.82rem;">• Response Window &lt; 4 Hours</div>
               </div>
             </div>
           </div>

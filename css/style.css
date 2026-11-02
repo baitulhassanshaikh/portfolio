@@ -259,10 +259,35 @@ ul {
   width: 100%;
 }
 
-/* Nav Right: CTA Button */
+/* Nav Right: CTA Button & Admin Lock Link */
 .nav-cta-wrapper {
   display: flex;
   align-items: center;
+  gap: 10px;
+}
+
+.nav-admin-lock {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(15, 108, 189, 0.08);
+  border: 1px solid rgba(15, 108, 189, 0.22);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.nav-admin-lock:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+  transform: scale(1.08) rotate(5deg);
+  box-shadow: 0 4px 14px rgba(15, 108, 189, 0.35);
 }
 
 /* Buttons System */
